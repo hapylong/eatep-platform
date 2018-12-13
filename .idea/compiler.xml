@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="eatep.activemq" />
+        <module name="eatep.crm" />
+        <module name="eatep.ec" />
+        <module name="eatep.front" />
+        <module name="eatep.prd" />
+        <module name="etep.web" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="1.8">
+      <module name="eatep-platform" target="1.7" />
+      <module name="eatep.activemq" target="1.7" />
+      <module name="eatep.crm" target="1.7" />
+      <module name="eatep.ec" target="1.7" />
+      <module name="eatep.front" target="1.7" />
+      <module name="eatep.prd" target="1.7" />
+      <module name="etep.web" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

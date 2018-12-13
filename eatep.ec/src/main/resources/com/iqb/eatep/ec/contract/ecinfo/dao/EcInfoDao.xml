@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iqb.eatep.ec.contract.ecinfo.dao.EcInfoDao" >
+
+	<!-- 保存电子合同信息  -->
+	<insert id="saveEcInfo" parameterType="com.iqb.eatep.ec.contract.ecinfo.bean.EcInfoBean">
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+			select LAST_INSERT_ID() as id
+		</selectKey>
+		INSERT INTO iqb_ec_info (
+		  BIZ_TYPE,
+		  BIZ_CONFIG_ID,
+		  BIZ_ID,
+		  ORG_CODE,
+		  ORG_NAME,
+		  EC_CONTRACT_NO,
+		  EC_TPL_ID,
+		  EC_FILE_NAME,
+		  EC_FILE,
+		  EC_THEME,
+		  EC_ABSTRACT,
+		  EC_EFFECTIVE_DAYS,
+		  EC_FILE_TYPE,
+		  EC_FILE_BLOB,
+		  EC_SENDER_NAME,
+		  EC_SENDER_ACC,
+		  EC_SENDER_TYPE,
+		  IS_SENDER_SIGN,
+		  EC_SENDER_SIGNIMG_TYPE,
+		  EC_TYPE,
+		  EC_NOTIFY_URL,
+		  EC_TASK_URL,
+		  EC_DOWNLOAD_URL,
+		  STATUS
+		)VALUES(
+			#{bizType},
+			#{bizConfigId},
+			#{bizId},
+			#{orgCode},
+			#{orgName},
+			#{ecContractNo},
+			#{ecTplId},
+			#{ecFileName},
+			#{ecFile},
+			#{ecTheme},
+			#{ecAbstract},
+			#{ecEffectiveDays},
+			#{ecFileType},
+			#{ecFileBlob},
+			#{ecSenderName},
+			#{ecSenderAcc},
+			#{ecSenderType},
+			#{isSenderSign},
+			#{ecSenderSignimgType},
+			#{ecType},
+			#{ecNotifyUrl},
+			#{ecTaskUrl},
+			#{ecDownloadUrl},
+			#{status}
+		)
+	</insert>
+	
+	<!-- 保存电子合同签署人信息  -->
+	<insert id="saveEcSignerInfo" keyProperty="id" useGeneratedKeys="true" parameterType="com.iqb.eatep.ec.contract.ecinfo.bean.EcInfoSignerBean">
+		INSERT INTO iqb_ec_info_signer (
+		  BIZ_ID,                            
+		  BIZ_TYPE,                          
+		  ORG_CODE,                          
+		  EC_INFO_ID,                        
+		  EC_SIGNER_CODE,                     
+		  EC_SIGNER_NAME,                     
+		  EC_SIGNER_TYPE,                     
+		  EC_SIGNER_CERT_TYPE,                    
+		  EC_SIGNER_CERT_NO,                    
+		  EC_SIGNER_CERT_PWD,                    
+		  EC_SIGNER_EMAIL,                     
+		  EC_SIGNER_PHONE,                     
+		  EC_SIGNER_ADDRESS,                     
+		  EC_SIGNER_PROVINCE,                     
+		  EC_SIGNER_CITY,      
+		  EC_SIGN_TYPE,               
+		  SOCIAL_CREDIT_CODE,                     
+		  BIZ_REG_NUM,                       
+		  ORGANIZATION_CODE,                      
+		  TAX_REG_NUM,                       
+		  COORDINATE_LIST,                      
+		  TP_SIGN_RET_INFO,                    
+		  TP_SIGN_RET_CODE,                    
+		  TP_SIGN_RET_CONTENT,                    
+		  TP_SIGNID,                         
+		  TP_DOCID,                          
+		  TP_RETURN_URL,                     
+		  TP_USER_ACC,                       
+		  TP_USER_STATUS_SYN,                    
+		  TP_USER_STATUS_ASYN,                    
+		  SIGN_DEVICE_TYPE,                     
+		  MANUAL_SIGN_URL,                     
+		  EC_TOKEN_URL,                      
+		  CREATE_TIME,
+		  STORE_NAME                               
+		) 
+		VALUES(
+		  #{bizId},             
+		  #{bizType},           
+		  #{orgCode},           
+		  #{ecInfoId},          
+		  #{ecSignerCode},      
+		  #{ecSignerName},      
+		  #{ecSignerType},      
+		  #{ecSignerCertType},  
+		  #{ecSignerCertNo},    
+		  #{ecSignerCertPwd},    
+		  #{ecSignerEmail},     
+		  #{ecSignerPhone},     
+		  #{ecSignerAddress},   
+		  #{ecSignerProvince},  
+		  #{ecSignerCity},      
+		  #{ecSignType},      
+		  #{socialCreditCode},  
+		  #{bizRegNum},         
+		  #{organizationCode},  
+		  #{taxRegNum},         
+		  #{coordinateList},    
+		  #{tpSignRetInfo},     
+		  #{tpSignRetCode},     
+		  #{tpSignRetContent},  
+		  #{tpSignid},          
+		  #{tpDocid},           
+		  #{tpReturnUrl},       
+		  #{tpUserAcc},         
+		  #{tpUserStatusSyn},   
+		  #{tpUserStatusAsyn},  
+		  #{signDeviceType},    
+		  #{manualSignUrl},     
+		  #{ecTokenUrl},        
+		  unix_timestamp(now()), 
+		  #{storeName}        
+		)
+	</insert>
+	
+	<!-- 根据电子合同表id获取签署人信息  -->
+	<select id="listEcSignerByEcInfoId" resultType="com.iqb.eatep.ec.contract.ecinfo.bean.EcInfoSignerBean">
+		SELECT 
+		  ieis.ID AS 'id',
+		  ieis.BIZ_ID AS 'bizId',
+		  ieis.BIZ_TYPE AS 'bizType',
+		  ieis.ORG_CODE AS 'orgCode',
+		  ieis.EC_INFO_ID AS 'ecInfoId',
+		  ieis.EC_SIGNER_CODE AS 'ecSignerCode',
+		  ieis.EC_SIGNER_NAME 'ecSignerName',
+		  ieis.EC_SIGNER_TYPE AS 'ecSignerType',
+		  ieis.EC_SIGNER_CERT_TYPE AS 'ecSignerCertType',
+		  ieis.EC_SIGNER_CERT_NO AS 'ecSignerCertNo',
+		  ieis.EC_SIGNER_EMAIL AS 'ecSignerEmail',
+		  ieis.EC_SIGNER_PHONE AS 'ecSignerPhone',
+		  ieis.EC_SIGNER_ADDRESS AS 'ecSignerAddress',
+		  ieis.EC_SIGNER_PROVINCE AS 'ecSignerProvince',
+		  ieis.EC_SIGNER_CITY AS 'ecSignerCity',
+		  ieis.EC_SIGN_TYPE AS 'ecSignType',
+		  ieis.SOCIAL_CREDIT_CODE AS 'socialCreditCode',
+		  ieis.BIZ_REG_NUM AS 'bizRegNum',
+		  ieis.ORGANIZATION_CODE AS 'organizationCode',
+		  ieis.TAX_REG_NUM AS 'taxRegNum',
+		  ieis.COORDINATE_LIST AS 'coordinateList',
+		  ieis.TP_SIGN_RET_INFO AS 'tpSignRetInfo',
+		  ieis.TP_SIGN_RET_CODE AS 'tpSignRegCode',
+		  ieis.TP_SIGN_RET_CONTENT AS 'tpSignRetContent',
+		  ieis.TP_SIGNID AS 'tpSignid',
+		  ieis.TP_DOCID AS 'tpDocid',
+		  ieis.TP_RETURN_URL AS 'tpReturnUrl',
+		  ieis.TP_USER_ACC AS 'tpUserAcc',
+		  ieis.TP_USER_STATUS_SYN AS 'apUserStatusSyn',
+		  ieis.TP_USER_STATUS_ASYN AS 'tpUserStatusAsyn',
+		  ieis.SIGN_DEVICE_TYPE AS 'signDeviceType',
+		  ieis.MANUAL_SIGN_URL AS 'manualSignUrl',
+		  ieis.EC_TOKEN_URL AS 'ecTokenUrl',
+		  ies.EC_SIGNER_IMG_NAME AS 'ecSignerImgName' 
+		FROM
+		  iqb_ec_info_signer ieis 
+		  LEFT JOIN iqb_ec_signer ies 
+		    ON ieis.EC_SIGNER_CODE = ies.EC_SIGNER_CODE 
+		WHERE ieis.EC_INFO_ID = #{ecInfoId} and ies.EC_SIGNER_STATUS = 1
+	</select>
+	
+	<!-- 获取电子合同信息列表  -->
+	<select id="listEcInfo" resultType="com.iqb.eatep.ec.contract.ecinfo.bean.EcInfoBean">
+		SELECT 
+		  iei.ID AS 'id',
+		  BIZ_TYPE AS 'bizType',
+		  iei.BIZ_CONFIG_ID AS 'bizConfigId',
+		  BIZ_ID AS 'bizId',
+		  ORG_CODE AS 'orgCode',
+		  ORG_NAME AS 'orgName',
+		  EC_CONTRACT_NO AS 'ecContractNo',
+		  ibt.TEMPLATE_SIGN_SEQ AS 'ecTplId',
+		  EC_FILE_NAME AS 'ecFileName',
+		  iei.EC_FILE AS 'ecFile',
+		  EC_THEME AS 'ecTheme',
+		  EC_ABSTRACT AS 'ecAbstract',
+		  EC_EFFECTIVE_DAYS AS 'ecEffectiveDays',
+		  EC_FILE_TYPE AS 'ecFileType',
+		  EC_FILE_BLOB AS 'ecFileBlob',
+		  EC_SENDER_NAME AS 'ecSenderName',
+		  EC_SENDER_ACC AS 'ecSenderAcc',
+		  EC_SENDER_TYPE AS 'ecSenderType',
+		  IS_SENDER_SIGN AS 'isSenderSign',
+		  EC_SENDER_SIGNIMG_TYPE AS 'ecSenderSignimgType',
+		  iei.EC_TYPE AS 'ecType',
+		  EC_SENDER_USER_FILETYPE AS 'ecSenderUserFileType',
+		  EC_NOTIFY_URL AS 'ecNotifyUrl',
+		  EC_TASK_URL AS 'ecTaskUrl',
+		  TP_UPLOAD_RET_INFO AS 'tpUploadRetInfo',
+		  TP_UPLOAD_RET_CODE AS 'tpUploadRetCode',
+		  TP_UPLOAD_RET_CONTENT AS 'tpUploadRetContent',
+		  TP_SIGNID AS 'tpSignid',
+		  TP_DOCID AS 'tpDocid',
+		  TP_VATE_CODE AS 'tpVateCode',
+		  EC_VIEW_URL AS 'ecViewUrl',
+		  EC_DOWNLOAD_URL AS 'ecDownloadUrl',
+		  EC_DOWNLOAD_TIMES AS 'ecDownloadTimes',
+		  EC_SENDTIME AS 'ecSendtime',
+		  EC_SIGN_NUM AS 'ecSignNum',
+		  iei.STATUS AS 'status',
+		  FINISH_SIGN_TIME AS 'finishSignTime' 
+		FROM
+		  iqb_ec_info iei 
+		  LEFT JOIN iqb_biz_template ibt 
+		    ON iei.EC_TPL_ID = ibt.TEMPLATE_ID 
+		    and iei.BIZ_CONFIG_ID = ibt.BIZ_CONFIG_ID 
+		WHERE BIZ_ID = #{bizId} 
+		  AND BIZ_TYPE = #{bizType} 
+		  AND ORG_CODE = #{orgCode}
+	</select>
+	
+	<!-- 获取电子合同签署人信息列表  -->
+	<select id="listEcSignerInfo" resultType="com.iqb.eatep.ec.contract.ecinfo.bean.EcInfoSignerBean">
+		SELECT 
+		  ID AS 'id',
+		  BIZ_ID AS 'bizId',
+		  BIZ_TYPE AS 'bizType',
+		  ORG_CODE AS 'orgCode',
+		  EC_INFO_ID AS 'ecInfoId',
+		  EC_SIGNER_CODE as 'ecSignerCode',
+		  EC_SIGNER_NAME 'ecSignerName',
+		  EC_SIGNER_TYPE AS 'ecSignerType',
+		  EC_SIGNER_CERT_TYPE AS 'ecSignerCertType',
+		  EC_SIGNER_CERT_NO AS 'ecSignerCertNo',
+		  EC_SIGNER_EMAIL AS 'ecSignerEmail',
+		  EC_SIGNER_PHONE AS 'ecSignerPhone',
+		  EC_SIGNER_ADDRESS AS 'ecSignerAddress',
+		  EC_SIGNER_PROVINCE AS 'ecSignerProvince',
+		  EC_SIGNER_CITY AS 'ecSignerCity',
+		  IS_APPLY_CERT_COMPLETE AS isApplyCertComplete,
+		  EC_SIGNER_CERT_PWD AS ecSignerCertPwd,
+		  EC_SIGNER_CERT_PERIOD AS ecSignerCertPeriod,
+		  SOCIAL_CREDIT_CODE AS 'socialCreditCode',
+		  BIZ_REG_NUM AS 'bizRegNum',
+		  ORGANIZATION_CODE AS 'organizationCode',
+		  TAX_REG_NUM AS 'taxRegNum',
+		  COORDINATE_LIST AS 'coordinateList',
+		  TP_SIGN_RET_INFO AS 'tpSignRetInfo',
+		  TP_SIGN_RET_CODE AS 'tpSignRegCode',
+		  TP_SIGN_RET_CONTENT AS 'tpSignRetContent',
+		  TP_SIGNID AS 'tpSignid',
+		  TP_DOCID AS 'tpDocid',
+		  TP_RETURN_URL AS 'ypReturnUrl',
+		  TP_USER_ACC AS 'tpUserAcc',
+		  TP_USER_STATUS_SYN AS 'apUserStatusSyn',
+		  TP_USER_STATUS_ASYN AS 'tpUserStatusAsyn',
+		  SIGN_DEVICE_TYPE AS 'signDeviceType',
+		  MANUAL_SIGN_URL AS 'manualSignUrl',
+		  EC_TOKEN_URL AS 'ecTokenUrl',
+		  STORE_NAME AS storeName
+		FROM
+		  iqb_ec_info_signer 
+		WHERE BIZ_ID = #{bizId} 
+		  AND BIZ_TYPE = #{bizType} 
+		  AND ORG_CODE = #{orgCode}
+	</select>
+	
+	<!-- 根据signID获取电子合同信息  -->
+	<select id="selectContractInfoBySignID" resultType="com.iqb.eatep.ec.contract.ecinfo.bean.EcInfoBean">
+		SELECT 
+		  ID AS 'id',
+		  BIZ_TYPE AS 'bizType',
+		  BIZ_CONFIG_ID AS 'bizConfigId',
+		  BIZ_ID AS 'bizId',
+		  ORG_CODE AS 'orgCode',
+		  ORG_NAME AS 'orgName',
+		  EC_CONTRACT_NO AS 'ecContractNo',
+		  EC_TPL_ID AS 'ecTplId',
+		  EC_FILE_NAME AS 'ecFileName',
+		  EC_FILE AS 'ecFile',
+		  EC_THEME AS 'ecTheme',
+		  EC_ABSTRACT AS 'ecAbstract',
+		  EC_EFFECTIVE_DAYS AS 'ecEffectiveDays',
+		  EC_FILE_TYPE AS 'ecFileType',
+		  EC_FILE_BLOB AS 'ecFileBlob',
+		  EC_SENDER_NAME AS 'ecSenderName',
+		  EC_SENDER_ACC AS 'ecSenderAcc',
+		  EC_SENDER_TYPE AS 'ecSenderType',
+		  IS_SENDER_SIGN AS 'ecSenderSign',
+		  EC_SENDER_SIGNIMG_TYPE AS 'ecSenderSignimgType',
+		  EC_TYPE AS 'ecType',
+		  EC_SENDER_USER_FILETYPE AS 'ecSenderUserFileType',
+		  EC_NOTIFY_URL AS 'ecNotifyUrl',
+		  EC_TASK_URL AS 'ecTaskUrl',
+		  TP_UPLOAD_RET_INFO AS 'tpUploadRetInfo',
+		  TP_UPLOAD_RET_CODE AS 'tpUploadRetCode',
+		  TP_UPLOAD_RET_CONTENT AS 'tpUploadRetContent',
+		  TP_SIGNID AS 'tpSignid',
+		  TP_DOCID AS 'tpDocid',
+		  TP_VATE_CODE AS 'tpVateCode',
+		  EC_VIEW_URL AS 'ecViewUrl',
+		  EC_SENDTIME AS 'ecSendtime',
+		  EC_SIGN_NUM AS 'ecSignNum',
+		  STATUS AS 'status',
+		  FINISH_SIGN_TIME AS 'finishSignTime' 
+		FROM
+		  iqb_ec_info 
+		WHERE TP_SIGNID = #{tpSignid} LIMIT 1
+	</select>
+	
+	<!-- 根据docId获取电子合同信息  -->
+	<select id="selectContractInfoByDocId" resultType="com.iqb.eatep.ec.contract.ecinfo.bean.EcInfoBean">
+		SELECT 
+		  ID AS 'id',
+		  BIZ_TYPE AS 'bizType',
+		  BIZ_CONFIG_ID AS 'bizConfigId',
+		  BIZ_ID AS 'bizId',
+		  ORG_CODE AS 'orgCode',
+		  ORG_NAME AS 'orgName',
+		  EC_CONTRACT_NO AS 'ecContractNo',
+		  EC_TPL_ID AS 'ecTplId',
+		  EC_FILE_NAME AS 'ecFileName',
+		  EC_FILE AS 'ecFile',
+		  EC_THEME AS 'ecTheme',
+		  EC_ABSTRACT AS 'ecAbstract',
+		  EC_EFFECTIVE_DAYS AS 'ecEffectiveDays',
+		  EC_FILE_TYPE AS 'ecFileType',
+		  EC_FILE_BLOB AS 'ecFileBlob',
+		  EC_SENDER_NAME AS 'ecSenderName',
+		  EC_SENDER_ACC AS 'ecSenderAcc',
+		  EC_SENDER_TYPE AS 'ecSenderType',
+		  IS_SENDER_SIGN AS 'ecSenderSign',
+		  EC_SENDER_SIGNIMG_TYPE AS 'ecSenderSignimgType',
+		  EC_TYPE AS 'ecType',
+		  EC_SENDER_USER_FILETYPE AS 'ecSenderUserFileType',
+		  EC_NOTIFY_URL AS 'ecNotifyUrl',
+		  EC_TASK_URL AS 'ecTaskUrl',
+		  TP_UPLOAD_RET_INFO AS 'tpUploadRetInfo',
+		  TP_UPLOAD_RET_CODE AS 'tpUploadRetCode',
+		  TP_UPLOAD_RET_CONTENT AS 'tpUploadRetContent',
+		  TP_SIGNID AS 'tpSignid',
+		  TP_DOCID AS 'tpDocid',
+		  TP_VATE_CODE AS 'tpVateCode',
+		  EC_VIEW_URL AS 'ecViewUrl',
+		  EC_SENDTIME AS 'ecSendtime',
+		  EC_SIGN_NUM AS 'ecSignNum',
+		  STATUS AS 'status',
+		  FINISH_SIGN_TIME AS 'finishSignTime' 
+		FROM
+		  iqb_ec_info 
+		WHERE TP_SIGNID = #{tpSignid} LIMIT 1
+	</select>
+	
+	<!-- 获取电子合同签署人信息列表  -->
+	<select id="selectContractInfoByEcSignerCode" resultType="com.iqb.eatep.ec.contract.ecinfo.bean.EcInfoSignerBean">
+		SELECT 
+		  ID AS 'id',
+		  BIZ_ID AS 'bizId',
+		  BIZ_TYPE AS 'bizType',
+		  ORG_CODE AS 'orgCode',
+		  EC_INFO_ID AS 'ecInfoId',
+		  EC_SIGNER_CODE as 'ecSignerCode',
+		  EC_SIGNER_NAME 'ecSignerName',
+		  EC_SIGNER_TYPE AS 'ecSignerType',
+		  EC_SIGNER_CERT_TYPE AS 'ecSignerCertType',
+		  EC_SIGNER_CERT_NO AS 'ecSignerCertNo',
+		  EC_SIGNER_EMAIL AS 'ecSignerEmail',
+		  EC_SIGNER_PHONE AS 'ecSignerPhone',
+		  EC_SIGNER_ADDRESS AS 'ecSignerAddress',
+		  EC_SIGNER_PROVINCE AS 'ecSignerProvince',
+		  EC_SIGNER_CITY AS 'ecSignerCity',
+		  SOCIAL_CREDIT_CODE AS 'socialCreditCode',
+		  BIZ_REG_NUM AS 'bizRegNum',
+		  ORGANIZATION_CODE AS 'organizationCode',
+		  TAX_REG_NUM AS 'taxRegNum',
+		  COORDINATE_LIST AS 'coordinateList',
+		  TP_SIGN_RET_INFO AS 'tpSignRetInfo',
+		  TP_SIGN_RET_CODE AS 'tpSignRegCode',
+		  TP_SIGN_RET_CONTENT AS 'tpSignRetContent',
+		  TP_SIGNID AS 'tpSignid',
+		  TP_DOCID AS 'tpDocid',
+		  TP_RETURN_URL AS 'ypReturnUrl',
+		  TP_USER_ACC AS 'tpUserAcc',
+		  TP_USER_STATUS_SYN AS 'apUserStatusSyn',
+		  TP_USER_STATUS_ASYN AS 'tpUserStatusAsyn',
+		  SIGN_DEVICE_TYPE AS 'signDeviceType',
+		  MANUAL_SIGN_URL AS 'manualSignUrl',
+		  EC_TOKEN_URL AS 'ecTokenUrl' 
+		FROM
+		  iqb_ec_info_signer 
+		WHERE EC_SIGNER_EMAIL = #{user} AND TP_SIGNID = #{docId} 
+		LIMIT 1
+	</select>
+	
+	<!-- 更新电子合同签署人信息  -->
+	<update id="updateContractEcSignerInfo" parameterType="com.iqb.eatep.ec.contract.ecinfo.bean.EcInfoSignerBean">
+		UPDATE iqb_ec_info_signer 
+        <set>
+            <if test="tpUserStatusAsyn != null and tpUserStatusAsyn != ''" >
+                TP_USER_STATUS_ASYN = #{tpUserStatusAsyn},
+            </if>
+            <if test="manualSignUrl != null and manualSignUrl != ''" >
+                MANUAL_SIGN_URL = #{manualSignUrl}
+            </if>
+        </set>
+        WHERE 
+            EC_SIGNER_CODE = #{ecSignerCode}
+          AND
+          	BIZ_ID = #{bizId}
+          	<if test="id != null and id != ''" >
+                AND id = #{id}
+            </if>
+	</update>
+	
+	<!-- 根据docId查询电子合同签署方信息  -->
+	<select id="listEcSignerByDocId" resultType="com.iqb.eatep.ec.contract.ecinfo.bean.EcInfoSignerBean">
+		SELECT 
+		  ID AS 'id',
+		  BIZ_ID AS 'bizId',
+		  BIZ_TYPE AS 'bizType',
+		  ORG_CODE AS 'orgCode',
+		  EC_INFO_ID AS 'ecInfoId',
+		  EC_SIGNER_CODE as 'ecSignerCode',
+		  EC_SIGNER_NAME 'ecSignerName',
+		  EC_SIGNER_TYPE AS 'ecSignerType',
+		  EC_SIGNER_CERT_TYPE AS 'ecSignerCertType',
+		  EC_SIGNER_CERT_NO AS 'ecSignerCertNo',
+		  EC_SIGNER_EMAIL AS 'ecSignerEmail',
+		  EC_SIGNER_PHONE AS 'ecSignerPhone',
+		  EC_SIGNER_ADDRESS AS 'ecSignerAddress',
+		  EC_SIGNER_PROVINCE AS 'ecSignerProvince',
+		  EC_SIGNER_CITY AS 'ecSignerCity',
+		  SOCIAL_CREDIT_CODE AS 'socialCreditCode',
+		  BIZ_REG_NUM AS 'bizRegNum',
+		  ORGANIZATION_CODE AS 'organizationCode',
+		  TAX_REG_NUM AS 'taxRegNum',
+		  COORDINATE_LIST AS 'coordinateList',
+		  TP_SIGN_RET_INFO AS 'tpSignRetInfo',
+		  TP_SIGN_RET_CODE AS 'tpSignRegCode',
+		  TP_SIGN_RET_CONTENT AS 'tpSignRetContent',
+		  TP_SIGNID AS 'tpSignid',
+		  TP_DOCID AS 'tpDocid',
+		  TP_RETURN_URL AS 'ypReturnUrl',
+		  TP_USER_ACC AS 'tpUserAcc',
+		  TP_USER_STATUS_SYN AS 'apUserStatusSyn',
+		  TP_USER_STATUS_ASYN AS 'tpUserStatusAsyn',
+		  SIGN_DEVICE_TYPE AS 'signDeviceType',
+		  MANUAL_SIGN_URL AS 'manualSignUrl',
+		  EC_TOKEN_URL AS 'ecTokenUrl' 
+		FROM
+		  iqb_ec_info_signer 
+		WHERE TP_SIGNID = #{tpDocid} 
+	</select>
+	
+	<!-- 更新电子合同信息  -->
+	<update id="updateContractEcInfo" parameterType="com.iqb.eatep.ec.contract.ecinfo.bean.EcInfoBean">
+		UPDATE iqb_ec_info
+        <set>
+            <if test="status != null and status != ''" >
+                STATUS = #{status},
+            </if>
+            <if test="tpDocid != null and tpDocid != ''" >
+                TP_DOCID = #{tpDocid},
+            </if>
+            <if test="tpSignid != null and tpSignid != ''" >
+                TP_SIGNID = #{tpSignid},
+            </if>
+            <if test="ecViewUrl != null and ecViewUrl != ''" >
+                EC_VIEW_URL = #{ecViewUrl},
+            </if>
+            <if test="ecDownloadUrl != null and ecDownloadUrl != ''" >
+                EC_DOWNLOAD_URL = #{ecDownloadUrl},
+                EC_SENDTIME = unix_timestamp(),
+            </if>
+            FINISH_SIGN_TIME = unix_timestamp()
+        </set>
+        WHERE 
+            BIZ_ID = #{bizId}
+           AND
+            BIZ_TYPE = #{bizType}
+            <if test="id != null and id != ''" >
+                AND id = #{id}
+            </if>
+	</update>
+	
+	<!-- 更新电子合同信息  -->
+	<update id="updateEcSignerInfoSetDocId" parameterType="com.iqb.eatep.ec.contract.ecinfo.bean.EcInfoBean">
+		UPDATE iqb_ec_info_signer
+        <set>
+            <if test="tpDocid != null and tpDocid != ''" >
+                TP_DOCID = #{tpDocid},
+            </if>
+            <if test="tpSignid != null and tpSignid != ''" >
+                TP_SIGNID = #{tpSignid},
+            </if>
+        </set>
+        WHERE 
+            BIZ_ID = #{bizId}
+           AND
+            BIZ_TYPE = #{bizType}
+            <if test="id != null and id != ''" >
+                AND EC_INFO_ID = #{id}
+            </if>
+	</update>
+	
+	<!-- 删除电子合同信息  -->
+	<delete id="deleteEcInfo" parameterType="com.iqb.eatep.ec.contract.ecinfo.bean.EcInfoBean">
+		DELETE FROM iqb_ec_info WHERE BIZ_ID = #{bizId} AND BIZ_TYPE = #{bizType}
+	</delete>
+	
+	<!-- 删除电子合同签署人信息  -->
+	<delete id="deleteEcInfoSigner" parameterType="com.iqb.eatep.ec.contract.ecinfo.bean.EcInfoBean">
+		DELETE FROM iqb_ec_info_signer WHERE BIZ_ID = #{bizId} AND BIZ_TYPE = #{bizType}
+	</delete>
+	
+	<!-- 为合同下载查询合同信息  -->
+	<select id="selectContractInfoForDownload" resultType="map">
+		SELECT 
+		  BIZ_ID AS 'orderId',
+		  TP_SIGNID AS 'tpSignid',
+		  EC_FILE_NAME AS 'ecFileName',
+		  EC_DOWNLOAD_URL AS 'ecDownloadUrl',
+		  EC_DOWNLOAD_TIMES AS 'ecDownloadTimes',
+		  FINISH_SIGN_TIME AS 'finishSignTime' 
+		FROM
+		  iqb_ec_info 
+		WHERE STATUS = 1 AND EC_TYPE = 'dz' AND FINISH_SIGN_TIME &gt; ${ecSendtime}
+	</select>
+
+	<!-- 更新合同下载次数  -->
+	<update id="updateEcDownloadTimes">
+		UPDATE iqb_ec_info SET EC_DOWNLOAD_TIMES = EC_DOWNLOAD_TIMES + 1 WHERE TP_SIGNID = #{tpSignid}
+	</update>
+	
+</mapper>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iqb.eatep.ec.contract.template.dao.ContractTemplateSignerDao">
+  <resultMap id="BaseResultMap" type="com.iqb.eatep.ec.contract.template.bean.ContractTemplateSignerBean">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="EC_TPL_ID" jdbcType="INTEGER" property="ecTplId" />
+    <result column="EC_SIGNER_TYPE" jdbcType="INTEGER" property="ecSignerType" />
+    <result column="EC_SEAL_PAGE_NUM" jdbcType="INTEGER" property="ecSealPageNum" />
+    <result column="EC_SEAL_POSITION_X" jdbcType="INTEGER" property="ecSealPositionX" />
+    <result column="EC_SEAL_POSITION_Y" jdbcType="INTEGER" property="ecSealPositionY" />
+    <result column="EC_SIGN_TYPE" jdbcType="INTEGER" property="ecSignType" />
+    <result column="EC_FACTOR_SEQ" jdbcType="INTEGER" property="ecFactorSeq" />
+    <result column="IS_AUTO_SIGN" jdbcType="CHAR" property="isAutoSign" />
+    <result column="EC_SIGNER_VIDEO_TYPE" jdbcType="INTEGER" property="ecSignerVideoType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, EC_TPL_ID, EC_SIGNER_TYPE, EC_SEAL_PAGE_NUM, EC_SEAL_POSITION_X, EC_SEAL_POSITION_Y, 
+    EC_SIGN_TYPE, EC_FACTOR_SEQ, IS_AUTO_SIGN, EC_SIGNER_VIDEO_TYPE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from iqb_ec_template_signer
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectToListOfBean" parameterType="com.iqb.eatep.ec.contract.template.bean.ContractTemplateSignerBean" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from iqb_ec_template_signer
+    <where>
+    	<if test="ecTplId != null">
+	    	EC_TPL_ID = #{ecTplId,jdbcType=INTEGER}
+	    </if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from iqb_ec_template_signer
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.iqb.eatep.ec.contract.template.bean.ContractTemplateSignerBean">
+    insert into iqb_ec_template_signer (EC_TPL_ID, EC_SIGNER_TYPE, 
+      EC_SEAL_PAGE_NUM, EC_SEAL_POSITION_X, EC_SEAL_POSITION_Y, 
+      EC_SIGN_TYPE, EC_FACTOR_SEQ, IS_AUTO_SIGN, 
+      EC_SIGNER_VIDEO_TYPE)
+    values (#{ecTplId,jdbcType=INTEGER}, #{ecSignerType,jdbcType=INTEGER}, 
+      #{ecSealPageNum,jdbcType=INTEGER}, #{ecSealPositionX,jdbcType=INTEGER}, #{ecSealPositionY,jdbcType=INTEGER}, 
+      #{ecSignType,jdbcType=INTEGER}, #{ecFactorSeq,jdbcType=INTEGER}, #{isAutoSign,jdbcType=CHAR}, 
+      #{ecSignerVideoType,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iqb.eatep.ec.contract.template.bean.ContractTemplateSignerBean">
+    update iqb_ec_template_signer
+    <set>
+      <if test="ecTplId != null">
+        EC_TPL_ID = #{ecTplId,jdbcType=INTEGER},
+      </if>
+      <if test="ecSignerType != null">
+        EC_SIGNER_TYPE = #{ecSignerType,jdbcType=INTEGER},
+      </if>
+      <if test="ecSealPageNum != null">
+        EC_SEAL_PAGE_NUM = #{ecSealPageNum,jdbcType=INTEGER},
+      </if>
+      <if test="ecSealPositionX != null">
+        EC_SEAL_POSITION_X = #{ecSealPositionX,jdbcType=INTEGER},
+      </if>
+      <if test="ecSealPositionY != null">
+        EC_SEAL_POSITION_Y = #{ecSealPositionY,jdbcType=INTEGER},
+      </if>
+      <if test="ecSignType != null">
+        EC_SIGN_TYPE = #{ecSignType,jdbcType=INTEGER},
+      </if>
+      <if test="ecFactorSeq != null">
+        EC_FACTOR_SEQ = #{ecFactorSeq,jdbcType=INTEGER},
+      </if>
+      <if test="isAutoSign != null">
+        IS_AUTO_SIGN = #{isAutoSign,jdbcType=CHAR},
+      </if>
+      <if test="ecSignerVideoType != null">
+        EC_SIGNER_VIDEO_TYPE = #{ecSignerVideoType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iqb.eatep.ec.contract.template.bean.ContractTemplateSignerBean">
+    update iqb_ec_template_signer
+    set EC_TPL_ID = #{ecTplId,jdbcType=INTEGER},
+      EC_SIGNER_TYPE = #{ecSignerType,jdbcType=INTEGER},
+      EC_SEAL_PAGE_NUM = #{ecSealPageNum,jdbcType=INTEGER},
+      EC_SEAL_POSITION_X = #{ecSealPositionX,jdbcType=INTEGER},
+      EC_SEAL_POSITION_Y = #{ecSealPositionY,jdbcType=INTEGER},
+      EC_SIGN_TYPE = #{ecSignType,jdbcType=INTEGER},
+      EC_FACTOR_SEQ = #{ecFactorSeq,jdbcType=INTEGER},
+      IS_AUTO_SIGN = #{isAutoSign,jdbcType=CHAR},
+      EC_SIGNER_VIDEO_TYPE = #{ecSignerVideoType,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

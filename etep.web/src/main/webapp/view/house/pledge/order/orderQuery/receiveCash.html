@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+	<html lang="en">
+	<head>
+		<title>应收保证金</title>
+		<meta charset="UTF-8" />
+		<meta name="Author" content="" />
+		<meta name="Keywords" content="" />
+		<meta name="Description" content="" />
+
+  		<link rel="stylesheet" href="../../../../../js/bootstrap/themes/default/bootstrap.css"/>
+  		<link rel="stylesheet" href="../../../../../css/font-awesome/css/font-awesome.min.css" />
+	    <link rel="stylesheet" href="../../../../../js/jquery-easyui-1.5/themes/bootstrap/validatebox.css"/>
+	    <link rel="stylesheet" href="../../../../../css/common/base.css" />
+	    <link rel="stylesheet" href="../../../../../css/common/scrollbar.css" />
+	      <link rel="stylesheet" href="../../../../../css/jquery.datetimepicker.css" />
+	    <link rel="stylesheet" href="../../../../../js/jquery-easyui-1.5/themes/bootstrap/tooltip.css"/>
+	    <link rel="stylesheet" href="../../../../../js/ztree/css/zTreeStyle/zTreeStyle.css"/>
+	    <link rel="stylesheet" href="../../../../../css/jquery.select2.css" />
+	    <link rel="stylesheet" href="../../../../../css/jquery.select2-bootstrap.css" />
+        
+        
+        
+        <script src="../../../../../js/common/package.js"></script>
+		<script src="../../../../../js/common/url.js"></script>
+		<script src="../../../../../js/common/jquery-1.11.3.min.js"></script>
+		<script src="../../../../../js/common/jquery.datetimepicker.js"></script>
+		<script src="../../../../../js/common/formatter.js"></script>
+		<script src="../../../../../js/bootstrap/bootstrap.js"></script>
+		<script src="../../../../../js/bootstrap/plugins/bootstrap-paginator.js"></script>
+		<script src="../../../../../js/jquery-easyui-1.5/jquery.easyui.min.js"></script>
+		<script src="../../../../../js/ztree/js/jquery.ztree.all.min.js"></script>
+	   	<script src="../../../../../js/common/json2.js"></script>	
+		<script src="../../../../../js/common/base.js"></script>
+		<script src="../../../../../js/common/datagrid2.js"></script>
+		<script src="../../../../../js/common/tree.js"></script>
+		<script src="../../../../../js/common/jquery.select2.js"></script>
+  		<script src="../../../../../js/each/main/main.js"></script>
+      	<script src="../../../../../js/common/script.js"></script>
+        <script src="../../../../../js/each/house/pledge/order/selectOrder/receiveCash.js"></script>
+ 	
+
+		<!-- 页面样式 -->
+		<style type="text/css">
+			.container-fluid {
+				padding-top: 4px;
+			}
+			.modal-form {
+				margin: 15px 30px 15px 30px;				
+			}
+			strong{
+			color: #d9534f;
+			}
+		</style>
+
+	</head>
+	<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">查询栏</h3>
+					</div>
+					<div class="panel-body">
+				      <form id="searchForm" class="form-horizontal" role="form">
+				           <div class="form-group">
+				           		<label for="userName" class="col-md-1 control-label"><strong>*</strong></strong>申请时间</label>
+							    	<div class="col-md-2">
+							      		<input type="text" class="form-control input-sm" id="dateStart" name="queryStartTime" placeholder="请输入开始时间" />
+							    	</div>
+							    	<label for="userName" class="col-md-1 control-label">至</label>
+							    	<div class="col-md-2">
+							      		<input type="text" class="form-control input-sm" id="dateEnd" name="queryEndTime" placeholder="请输入订结束时间" />
+							    	</div>
+							 	 <label class="col-md-1 control-label" >渠道名称</label>
+							     <div class="col-md-2">
+						             <select id="channel-name" name="channelCode" style="width: 100%">
+						         </select>
+						       
+				             </div> 
+				           
+								<label class="col-md-1 control-label" >业务类型</label>
+							
+							<div class="col-md-2">
+							   <select id="service-type" name="businessType" style="width: 100%"></select>
+							</div>
+					
+							 </div>
+							     <div class="form-group">
+							    <div class="col-md-offset-1 col-md-5">
+						     	<button id="btn-search" type="button"  class="btn btn-default btn-sm">查询</button>
+					 			<button id="btn-reset" type="button"  class="btn btn-default btn-sm">重置</button>
+				               	<button id="btn-export-all" type="button" class="btn btn-success btn-sm">导出电子表格</button>
+							           
+							
+							  </div>   
+							  </div>   
+					  </form>
+					</div>
+				</div>
+				
+
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">订单类表</h3>
+					</div>
+					 <div class="panel-body">
+						<!-- <form id="listForm">
+							<button id="btn-insert" type="button"
+								class="btn btn-primary btn-input">excel导出</button>
+				    	</form> -->
+					</div> 
+					<table id="datagrid" class="table table-bordered table-hover">
+						<thead  >
+							<tr >
+								<th field="rn" align="text-center" class="text-center">序号</th>								
+								<th field="CUSTOMER_NAME" align="text-center" class="text-center">渠道名称</th>
+								<th field="queryStartTime" align="text-center" formatter="$.changeDate(val)" class="text-center">开始时间</th>
+								<th field="queryEndTime" align="text-center"  formatter="$.changeDate(val)" class="text-center">结束时间</th>
+							    <th field="orderCount" align="text-center" class="text-center">总数笔</th>
+							    <th field="approval_amt" align="text-right" formatter="Formatter.money(val)" class="text-center">借款总金额(万元)</th>
+								<th field="p_amt" align="text-right" formatter="Formatter.money(val)" class="text-center">其中:质押类总金额(万元)</th>
+								<th field="b_amt" align="text-right" formatter="Formatter.money(val)" class="text-center">其中:过桥类总金额(万元)</th>
+								<th field="ensure_amt" align="text-right" formatter="Formatter.money(val)" class="text-center">应收保证金总额(元)</th>
+								<th field="p_ensure_amt" align="text-right" formatter="Formatter.money(val)" class="text-center">其中:质押应收(元)</th>
+								<th field="b_ensure_amt" align="text-right" formatter="Formatter.money(val)" class="text-center">其中:过桥应收(元)</th>
+								<th field="fact_amt" align="text-right" formatter="Formatter.money(val)" class="text-center">实收保证金总额(元)</th>
+								<th field="p_fact_amt" align="text-right" formatter="Formatter.money(val)" class="text-center">其中：质押实收(元)</th>
+								<th field="b_fact_amt" align="text-right" formatter="Formatter.money(val)" class="text-center">其中：过桥实收(元)</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+					<div class="panel-footer">
+						<div id="paginator"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</body>
+</html>

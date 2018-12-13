@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>用户信息补充</title>
+		<meta charset="UTF-8" />
+		<meta name="Author" content="" />
+		<meta name="Keywords" content="" />
+		<meta name="Description" content="" />
+
+  		<link rel="stylesheet" href="../../../js/bootstrap/themes/default/bootstrap.css"/>
+	    <link rel="stylesheet" href="../../../js/jquery-easyui-1.5/themes/bootstrap/validatebox.css"/>
+	    <link rel="stylesheet" href="../../../css/common/base.css" />
+	    <link rel="stylesheet" href="../../../css/common/scrollbar.css" />
+	    
+	    <link rel="stylesheet" href="../../../js/jquery-easyui-1.5/themes/bootstrap/tooltip.css"/>
+	    <link rel="stylesheet" href="../../../js/ztree/css/zTreeStyle/zTreeStyle.css"/>
+	    <link rel="stylesheet" href="../../../css/jquery.select2.css" />
+	    <link rel="stylesheet" href="../../../css/jquery.select2-bootstrap.css" />
+        
+        <script src="../../../js/common/package.js"></script>
+		<script src="../../../js/common/url.js"></script>
+		<script src="../../../js/common/jquery-1.11.3.min.js"></script>
+		<script src="../../../js/common/formatter.js"></script>
+		<script src="../../../js/bootstrap/bootstrap.js"></script>
+		<script src="../../../js/bootstrap/plugins/bootstrap-paginator.js"></script>
+		<script src="../../../js/jquery-easyui-1.5/jquery.easyui.min.js"></script>
+		<script src="../../../js/ztree/js/jquery.ztree.all.min.js"></script>
+	   	<script src="../../../js/common/json2.js"></script>	
+		<script src="../../../js/common/base.js"></script>
+		<script src="../../../js/common/datagrid2.js"></script>
+		<script src="../../../js/common/tree.js"></script>
+		<script src="../../../js/common/jquery.select2.js"></script>
+  		<script src="../../../js/each/main/main.js"></script>
+      	<script src="../../../js/common/script.js"></script>
+ 		<script src="../../../js/each/house/borrow/borrow.js"></script>
+
+		<!-- 页面样式 -->
+		<style type="text/css">
+			.container-fluid {
+				padding-top: 4px;
+			}
+			.modal-form {
+				margin: 15px 30px 15px 30px;				
+			}
+		</style>
+
+	</head>
+	<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">查询栏</h3>
+					</div>
+					<div class="panel-body">
+						<form id="searchForm" class="form-inline">
+							
+							<div class="form-group">
+								<label class="form-label">手机号</label>
+							</div>
+							<div class="form-group">
+								<input type="text" name="mobile" class="form-control input-sm" placeholder="请输入手机号">
+							</div>
+					      <button id="btn-search" type="button"
+								class="btn btn-default btn-sm">查询</button>
+							&nbsp;&nbsp;
+							<button id="btn-reset" type="button"
+								class="btn btn-default btn-sm">重置</button>
+						</form>
+					</div>
+				</div>
+
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">信息栏</h3>
+					</div>
+				
+					<table id="datagrid" class="table table-bordered table-hover" style="text-align:center">
+						<thead  >
+							<tr >
+						   		<!-- <th field="ck"></th> -->
+								<th field="rn" align="text-center" class="text-center">序号</th>								
+						   		<th field="id" idField="true"  hidden="true" align="text-center" class="text-center"> 主键号</th>
+							    <th field="userName"  align="text-center" class="text-center">用户名</th>
+                                <th field="idCard"   align="text-center" class="text-center">身份证号</th>
+							    <th field="mobile"  align="text-center" class="text-center">手机号</th>
+								<th field="married" align="text-center" class="text-center">婚姻</th>
+								<th field="bank"  align="text-center" class="text-center" >银行</th>
+								<th field="bankId" align="text-center" class="text-center">银行卡号</th>
+					       </tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+					<div class="panel-footer">
+						<div id="paginator"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+</html>

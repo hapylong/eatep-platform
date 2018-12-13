@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iqb.eatep.ec.contract.template.dao.ContractTemplateDao">
+  <resultMap id="BaseResultMap" type="com.iqb.eatep.ec.contract.template.bean.ContractTemplateBean">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="EC_TPL_CODE" jdbcType="VARCHAR" property="ecTplCode" />
+    <result column="EC_TPL_NAME" jdbcType="VARCHAR" property="ecTplName" />
+    <result column="EC_TPL_THEME" jdbcType="VARCHAR" property="ecTplTheme" />
+    <result column="EC_TPL_ABSTRACT" jdbcType="VARCHAR" property="ecTplAbstract" />
+    <result column="EC_TPL_TYPE" jdbcType="VARCHAR" property="ecTplType" />
+    <result column="EC_TPL_STORAGE_FORM" jdbcType="INTEGER" property="ecTplStorageForm" />
+    <result column="EC_TPL_CONTENT_DATA" jdbcType="VARCHAR" property="ecTplContentData" />
+    <result column="EC_TPL_EFFECTIVE_DAYS" jdbcType="INTEGER" property="ecTplEffectiveDays" />
+    <result column="IS_SENDER_PART_SIGN" jdbcType="CHAR" property="isSenderPartSign" />
+    <result column="EC_TYPE" jdbcType="VARCHAR" property="ecType" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+    <result column="UPDATE_TIME" jdbcType="INTEGER" property="updateTime" />
+    <result column="CREATE_TIME" jdbcType="INTEGER" property="createTime" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+    <result column="DELETE_FLAG" jdbcType="CHAR" property="deleteFlag" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="VERSION" jdbcType="INTEGER" property="version" />
+    <result column="EC_TPL_CONTENT_DATA_BLOB" jdbcType="LONGVARBINARY" property="ecTplContentDataBlob" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, EC_TPL_CODE, EC_TPL_NAME, EC_TPL_THEME, EC_TPL_ABSTRACT, EC_TPL_TYPE, EC_TPL_STORAGE_FORM, 
+    EC_TPL_CONTENT_DATA, EC_TPL_EFFECTIVE_DAYS, IS_SENDER_PART_SIGN, EC_TYPE, STATUS, UPDATE_TIME, 
+    CREATE_TIME, CREATER, UPDATER, DELETE_FLAG, REMARK, VERSION, EC_TPL_CONTENT_DATA_BLOB
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from iqb_ec_template
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectToListOfBean" parameterType="com.iqb.eatep.ec.contract.template.bean.ContractTemplateBean" resultMap="BaseResultMap">
+    select 
+    ID, EC_TPL_CODE, EC_TPL_NAME, EC_TPL_THEME, EC_TPL_ABSTRACT, EC_TPL_TYPE, EC_TPL_STORAGE_FORM, 
+    EC_TPL_CONTENT_DATA, EC_TPL_EFFECTIVE_DAYS, IS_SENDER_PART_SIGN, EC_TYPE, STATUS, UPDATE_TIME, 
+    CREATE_TIME, CREATER, UPDATER, DELETE_FLAG, REMARK, VERSION
+    from iqb_ec_template
+    <where>
+    	<if test="ecTplCode != null and ecTplCode != ''">
+	    	EC_TPL_CODE like concat('%', #{ecTplCode,jdbcType=VARCHAR}, '%')
+	    </if>
+	    <if test="ecTplName != null and ecTplName != ''">
+	    	and EC_TPL_NAME like concat('%', #{ecTplName,jdbcType=VARCHAR}, '%')
+	    </if>
+	    <if test="status != null">
+	    	and STATUS = #{status,jdbcType=INTEGER}
+	    </if>
+    </where>
+  </select>
+  <select id="selectToListOfMap" parameterType="com.iqb.eatep.ec.contract.template.bean.ContractTemplateBean" resultType="java.util.Map">
+    select ID as id, EC_TPL_NAME as text
+    from iqb_ec_template
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from iqb_ec_template
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.iqb.eatep.ec.contract.template.bean.ContractTemplateBean">
+    insert into iqb_ec_template (EC_TPL_CODE, EC_TPL_NAME, 
+      EC_TPL_THEME, EC_TPL_ABSTRACT, EC_TPL_TYPE, 
+      EC_TPL_STORAGE_FORM, EC_TPL_CONTENT_DATA, EC_TPL_EFFECTIVE_DAYS, 
+      IS_SENDER_PART_SIGN, EC_TYPE, STATUS, UPDATE_TIME, 
+      CREATE_TIME, CREATER, UPDATER, 
+      DELETE_FLAG, REMARK, VERSION, 
+      EC_TPL_CONTENT_DATA_BLOB)
+    values (#{ecTplCode,jdbcType=VARCHAR}, #{ecTplName,jdbcType=VARCHAR}, 
+      #{ecTplTheme,jdbcType=VARCHAR}, #{ecTplAbstract,jdbcType=VARCHAR}, #{ecTplType,jdbcType=VARCHAR}, 
+      #{ecTplStorageForm,jdbcType=INTEGER}, #{ecTplContentData,jdbcType=VARCHAR}, #{ecTplEffectiveDays,jdbcType=INTEGER}, 
+      #{isSenderPartSign,jdbcType=CHAR}, #{ecType,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{updateTime,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=INTEGER}, #{creater,jdbcType=VARCHAR}, #{updater,jdbcType=VARCHAR}, 
+      #{deleteFlag,jdbcType=CHAR}, #{remark,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}, 
+      #{ecTplContentDataBlob,jdbcType=LONGVARBINARY})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iqb.eatep.ec.contract.template.bean.ContractTemplateBean">
+    update iqb_ec_template
+    <set>
+      <if test="ecTplCode != null">
+        EC_TPL_CODE = #{ecTplCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ecTplName != null">
+        EC_TPL_NAME = #{ecTplName,jdbcType=VARCHAR},
+      </if>
+      <if test="ecTplTheme != null">
+        EC_TPL_THEME = #{ecTplTheme,jdbcType=VARCHAR},
+      </if>
+      <if test="ecTplAbstract != null">
+        EC_TPL_ABSTRACT = #{ecTplAbstract,jdbcType=VARCHAR},
+      </if>
+      <if test="ecTplType != null">
+        EC_TPL_TYPE = #{ecTplType,jdbcType=VARCHAR},
+      </if>
+      <if test="ecTplStorageForm != null">
+        EC_TPL_STORAGE_FORM = #{ecTplStorageForm,jdbcType=INTEGER},
+      </if>
+      <if test="ecTplContentData != null">
+        EC_TPL_CONTENT_DATA = #{ecTplContentData,jdbcType=VARCHAR},
+      </if>
+      <if test="ecTplEffectiveDays != null">
+        EC_TPL_EFFECTIVE_DAYS = #{ecTplEffectiveDays,jdbcType=INTEGER},
+      </if>
+      <if test="isSenderPartSign != null">
+        IS_SENDER_PART_SIGN = #{isSenderPartSign,jdbcType=CHAR},
+      </if>
+      <if test="ecType != null">
+        EC_TYPE = #{ecType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="creater != null">
+        CREATER = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="updater != null">
+        UPDATER = #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null">
+        DELETE_FLAG = #{deleteFlag,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        VERSION = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="ecTplContentDataBlob != null">
+        EC_TPL_CONTENT_DATA_BLOB = #{ecTplContentDataBlob,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iqb.eatep.ec.contract.template.bean.ContractTemplateBean">
+    update iqb_ec_template
+    set EC_TPL_CODE = #{ecTplCode,jdbcType=VARCHAR},
+      EC_TPL_NAME = #{ecTplName,jdbcType=VARCHAR},
+      EC_TPL_THEME = #{ecTplTheme,jdbcType=VARCHAR},
+      EC_TPL_ABSTRACT = #{ecTplAbstract,jdbcType=VARCHAR},
+      EC_TPL_TYPE = #{ecTplType,jdbcType=VARCHAR},
+      EC_TPL_STORAGE_FORM = #{ecTplStorageForm,jdbcType=INTEGER},
+      EC_TPL_CONTENT_DATA = #{ecTplContentData,jdbcType=VARCHAR},
+      EC_TPL_EFFECTIVE_DAYS = #{ecTplEffectiveDays,jdbcType=INTEGER},
+      IS_SENDER_PART_SIGN = #{isSenderPartSign,jdbcType=CHAR},
+      EC_TYPE = #{ecType,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=INTEGER},
+      UPDATE_TIME = #{updateTime,jdbcType=INTEGER},
+      CREATE_TIME = #{createTime,jdbcType=INTEGER},
+      CREATER = #{creater,jdbcType=VARCHAR},
+      UPDATER = #{updater,jdbcType=VARCHAR},
+      DELETE_FLAG = #{deleteFlag,jdbcType=CHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      VERSION = #{version,jdbcType=INTEGER},
+      EC_TPL_CONTENT_DATA_BLOB = #{ecTplContentDataBlob,jdbcType=LONGVARBINARY}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+  <head>
+   	<title>客户还款</title>
+		<meta charset="UTF-8" />
+		<meta name="Author" content="" />
+		<meta name="Keywords" content="" />
+		<meta name="Description" content="" />
+
+  		<link rel="stylesheet" href="../../../../../js/bootstrap/themes/default/bootstrap.css"/>
+  		<link rel="stylesheet" href="../../../../../css/font-awesome/css/font-awesome.min.css" />
+	    <link rel="stylesheet" href="../../../../../js/jquery-easyui-1.5/themes/bootstrap/validatebox.css"/>
+	    <link rel="stylesheet" href="../../../../../css/common/base.css" />
+	    <link rel="stylesheet" href="../../../../../css/common/scrollbar.css" />
+	    <link rel="stylesheet" href="../../../../../css/jquery.datetimepicker.css" />
+	    
+	    <link rel="stylesheet" href="../../../../../js/jquery-easyui-1.5/themes/bootstrap/tooltip.css"/>
+	    <link rel="stylesheet" href="../../../../../js/ztree/css/zTreeStyle/zTreeStyle.css"/>
+	    <link rel="stylesheet" href="../../../../../css/jquery.select2.css" />
+	    <link rel="stylesheet" href="../../../../../css/jquery.select2-bootstrap.css" />
+        <script src="../../../../../js/common/package.js"></script>
+		<script src="../../../../../js/common/url.js"></script>
+		<script src="../../../../../js/common/jquery-1.11.3.min.js"></script>
+		<script src="../../../../../js/common/jquery.datetimepicker.js"></script>
+		<script src="../../../../../js/common/formatter.js"></script>
+		<script src="../../../../../js/bootstrap/bootstrap.js"></script>
+		<script src="../../../../../js/bootstrap/plugins/bootstrap-paginator.js"></script>
+		<script src="../../../../../js/jquery-easyui-1.5/jquery.easyui.min.js"></script>
+		<script src="../../../../../js/ztree/js/jquery.ztree.all.min.js"></script>
+	   	<script src="../../../../../js/common/json2.js"></script>	
+		<script src="../../../../../js/common/base.js"></script>
+		<script src="../../../../../js/common/datagrid2.js"></script>
+		<script src="../../../../../js/common/tree.js"></script>
+		<script src="../../../../../js/common/jquery.select2.js"></script>
+  		<script src="../../../../../js/each/main/main.js"></script>
+      	<script src="../../../../../js/common/script.js"></script>
+       <script src="../../../../../js/each/house/pledge/order/selectOrder/customerRepay.js"></script>
+  </head>
+  
+  <body>
+   <div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">查询栏</h3>
+					</div>
+					<div class="panel-body">
+						<form id="searchForm" class="form-horizontal" role="form">
+							<div class="form-group">
+						    	<label for="userName" class="col-md-1 control-label">渠道名称</label>
+						    	<div class="col-md-2">
+						    		<select id="channel-name" name="channelCode" style="width: 100%"></select>
+						    	</div>	
+								<label for="userName" class="col-md-1 control-label">借款人</label>
+						    	<div class="col-md-2">
+						      		<input type="text" class="form-control input-sm" name="userName" placeholder="请输入借款人姓名" />
+						    	</div>
+						    	<label for="userName" class="col-md-1 control-label">身份证号</label>
+						    	<div class="col-md-2">
+						      		<input type="text" class="form-control input-sm" name="idCard" placeholder="请输入借款人身份证号" />
+						    	</div>
+						    	<label for="userName" class="col-md-1 control-label">订单号</label>
+						    	<div class="col-md-2">
+						      		<input type="text" class="form-control input-sm" name="orderNo" placeholder="请输入订单号" />
+						    	</div>
+						    						    	
+							</div>
+							<div class="form-group">
+								<label for="userName" class="col-md-1 control-label">渠道经纪人</label>
+						    	<div class="col-md-2">
+						      		<input type="text" class="form-control input-sm" name="channelUser" placeholder="请输入渠道经纪人姓名" />
+						    	</div>
+								<label for="userName" class="col-md-1 control-label">申请期数</label>
+						    	<div class="col-md-2">
+						      		<select id="periods-applyTerm" name="applyTerm" style="width: 100%"></select>
+						    	</div>
+						    	<label for="userName" class="col-md-1 control-label">借款金额</label>
+						    	<div class="col-md-2">
+						      		<input type="text" class="form-control input-sm easyui-validatebox"  name="applyMinMoney" placeholder="请输入最大借款金额" validType="moneyFour" />
+						    	</div>
+						    	<label for="userName" class="col-md-1 control-label">至</label>
+						    	<div class="col-md-2">
+						      		<input type="text" class="form-control input-sm easyui-validatebox"  name="applyMaxMoney" placeholder="请输入最小借款金额" validType="moneyFour" />
+						    	</div>						    	
+						  	</div>
+							<div class="form-group">
+								<label for="userName" class="col-md-1 control-label">业务类型</label>
+						    	<div class="col-md-2">
+						      		<select id="service-type" name="businessType" style="width: 100%"></select>
+						    	</div>
+						    	<label for="userName" class="col-md-1 control-label">还款状态</label>
+						    	<div class="col-md-2">
+						      		<select id="order-status" name="status" style="width: 100%;">
+										<option value=""> 请选择</option>
+								     	<option value="4">待还款</option>
+									   	<option value="5">已逾期</option>
+									   	<option value="6">已结清</option>
+								</select>
+						    	</div>
+						    	<label for="userName" class="col-md-1 control-label">省</label>
+						    	<div class="col-md-2">
+						      		<select id="selectId-province"  name="province" style="width: 100%"></select>
+						    	</div>
+						    	<label for="userName" class="col-md-1 control-label">市</label>
+						    	<div class="col-md-2">
+						      		<select id="selectId-city" name="city" style="width: 100%"></select>
+						    	</div>
+						  	</div>
+						  	<div class="form-group">						    	
+						    	<label for="userName" class="col-md-1 control-label">还款日</label>
+						    	<div class="col-md-2">
+						      		<input type="text" class="form-control input-sm" id="dateStart" name="queryStartTime" placeholder="请输入开始时间" />
+						    	</div>
+						    	<label for="userName" class="col-md-1 control-label">至</label>
+						    	<div class="col-md-2">
+						      		<input type="text" class="form-control input-sm" id="dateEnd" name="queryEndTime" placeholder="请输入订结束时间" />
+						    	</div>
+						    	<div class="col-md-offset-1 col-md-5">
+							  		<button id="btn-search" type="button"  class="btn btn-default btn-sm">查询</button>
+						 		  	<button id="btn-reset" type="button"  class="btn btn-default btn-sm">重置</button>
+						 		  	<button id="btn-export-all" type="button" class="btn btn-success btn-sm">导出电子表格</button>
+							 	</div>
+						  	</div>							
+						</form>
+					</div>
+				</div>
+
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">订单列表</h3>
+					</div>		
+					  <div class="panel-body">
+					    <form action="listForm">
+					      <button id="btn-apply" type="button" class="btn btn-primary btn-sm">申请</button>
+					    </form>	
+					  </div>
+					<table id="datagrid" class="table table-bordered table-hover" >
+						<thead>
+							<tr>	
+							    <th field="ck"></th>					   	
+								<th field="rn" align="text-center" class="text-center">序号</th>								
+								<th field="" align="text-center" class="text-center">订单号</th>
+								<th field="" align="text-center" class="text-center">借款人</th>
+								<th field="" align="text-center"  class="text-center" formatter="Formatter.money(val)">借款金额(万元)</th>
+							    <th field="" align="text-center" class="text-center">借款期数(月)</th>
+							    <th field="" align="text-center" class="text-center">渠道经纪人</th>
+								<th field="" align="text-right"  class="text-center">省</th>
+								<th field="" align="text-center" class="text-center">市</th>
+								<th field="" align="text-right"  class="text-center">业务类型</th>
+								<th field="" align="text-center" class="text-center">渠道名称</th>
+								<th field="" align="text-center" class="text-center" formatter="Formatter.timeCfm(val)">还款日</th>
+								<th field="" align="text-center" class="text-right" formatter="Formatter.money(val)" >应还总计(万元)</th>
+								<th field="" align="text-center" formatter="$.orderStatus(val)" class="text-center">状态</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+					<div class="panel-footer">
+						<div id="paginator"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+   
+   
+  </body>
+</html>

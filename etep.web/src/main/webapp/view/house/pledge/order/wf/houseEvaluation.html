@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <title>房屋估价</title>
+	    <meta charset="UTF-8" />
+	    <meta name="Author" content="" />
+	    <meta name="Keywords" content="" />
+	    <meta name="Description" content="" />
+	    
+	    <!-- 基础CSS库 -->
+	    <link rel="stylesheet" href="../../../../../js/bootstrap/themes/default/bootstrap.css" />
+	    <link rel="stylesheet" href="../../../../../css/font-awesome/css/font-awesome.min.css" />
+	    <link rel="stylesheet" href="../../../../../js/jquery-easyui-1.5/themes/bootstrap/validatebox.css" />
+	    <link rel="stylesheet" href="../../../../../js/jquery-easyui-1.5/themes/bootstrap/tooltip.css" />
+	    <link rel="stylesheet" href="../../../../../css/jquery.select2.css" />
+	    <link rel="stylesheet" href="../../../../../css/jquery.select2-bootstrap.css" />
+	    <link rel="stylesheet" href="../../../../../js/viewer/viewer.css" />
+	    
+	    <!-- 业务CSS库 -->
+		<link rel="stylesheet" href="../../../../../css/common/base.css"/>
+		<link rel="stylesheet" href="../../../../../css/common/scrollbar.css" />
+	    
+	    
+	    <script src="../../../../../js/common/vue.js"></script>
+	    
+	    <!-- 基础JS库 -->
+	    <script src="../../../../../js/common/package.js"></script>
+		<script src="../../../../../js/common/url.js"></script>
+		<script src="../../../../../js/common/json2.js"></script>	
+		<script src="../../../../../js/common/jquery-1.11.3.min.js"></script>
+		<script src="../../../../../js/common/jquery.form.js"></script>		
+		<script src="../../../../../js/bootstrap/bootstrap.js"></script>
+		<script src="../../../../../js/bootstrap/plugins/bootstrap-paginator.js"></script>
+		<script src="../../../../../js/jquery-easyui-1.5/jquery.easyui.min.js"></script>
+		<script src="../../../../../js/common/jquery.select2.js"></script>	
+		<script src="../../../../../js/viewer/viewer.js"></script>	
+		
+		<!-- 业务JS库 -->
+		<script src="../../../../../js/common/base.js"></script>
+		<script src="../../../../../js/common/datagrid2.js"></script>
+		<script src="../../../../../js/common/formatter.js"></script>	    
+	    <script src="../../../../../js/each/house/pledge/order/wf/houseEvaluation.js"></script>
+	    <script src="../../../../../js/common/wflow.js"></script>
+	    
+		<!-- 页面样式 -->
+		<style type="text/css">
+			.container-fluid {
+				padding-top: 4px;
+			}
+			.text-right {
+				text-align: right;
+			}
+			.text-muted {
+				font-weight: bold;
+			}
+			.text-stress {
+				font-weight: bold;
+				padding-right: 50px;
+			}
+			.list-group-blank {
+				background-color: #f5f5f5;
+			}
+			.list-group-title {
+				color: #fff;
+			    background-color: #6a82d5;
+			    border-left: 1px solid #ddd !important;
+			    border-right: 1px solid #ddd !important;
+			}
+			th {
+				text-align: center;
+			}
+			td {
+				text-align: center;
+			}
+			.modal-form {
+				margin: 15px 0;
+			}
+			textarea {
+				font-size: 12px !important;
+			}
+			strong {
+				color: #d9534f;
+			}
+			a :hover {
+				cursor: pointer;
+			}
+		</style>
+		
+	    
+	</head>
+	<body>
+		<div class="container-fluid">		
+			<div class="panel panel-default">
+				<div class="panel-heading">
+			    	<button id="btn-approve" type="button" class="btn btn-info btn-sm">
+			    	 	<span class="fa fa-user"></span> 订单审核
+			    	</button>
+			    	<button id="btn-unassign" type="button" class="btn btn-info btn-sm">
+						<span class="glyphicon glyphicon-share-alt"></span> 取消签收
+					</button>
+			  	</div>
+			  	<ul class="list-group">
+			  		<li class="list-group-item list-group-title">
+						<div class="row">				
+							<div class="col-md-12"><span class="fa fa-university"> 房屋信息</span></div>											
+						</div>
+					</li>
+			    	<li class="list-group-item">
+						<div class="row">				
+							<div class="col-md-2 text-right"><span class="text-stress">所在城市</span></div>
+							<div class="col-md-1"><span id="province" class="text-muted"></span></div>
+							<div class="col-md-2"><span id="city" class="text-muted"></span></div>
+						</div>
+					</li>
+					<li class="list-group-item" style="border-top: none;">
+						<div class="row">				
+							<div class="col-md-2 text-right"><span class="text-stress">社区名称</span></div>
+							<div class="col-md-4"><span id="communityName" class="text-muted"></span></div>
+							<div class="col-md-2 text-right"><span class="text-stress">社区别称</span></div>
+							<div class="col-md-4"><span id="shortName" class="text-muted"></span></div>													
+						</div>
+					</li>
+					<li class="list-group-item" style="border-top: none;">
+						<div class="row">				
+							<div class="col-md-2 text-right"><span class="text-stress">地址</span></div>
+							<div class="col-md-4"><span id="address" class="text-muted"></span></div>
+							<div class="col-md-2 text-right"><span class="text-stress">建筑面积</span></div>
+							<div class="col-md-4"><span id="buildingAcreage" class="text-muted"></span></div>													
+						</div>
+					</li>
+					<li class="list-group-item" style="border-top: none;">
+						<div class="row">				
+							<div class="col-md-2 text-right"><span class="text-stress">楼栋</span></div>
+							<div class="col-md-4"><span id="building" class="text-muted"></span></div>
+							<div class="col-md-2 text-right"><span class="text-stress">门牌号</span></div>
+							<div class="col-md-4"><span id="houseNumber" class="text-muted"></span></div>													
+						</div>
+					</li>
+					<li class="list-group-item" style="border-top: none;">
+						<div class="row">				
+							<div class="col-md-2 text-right"><span class="text-stress">规划用途</span></div>
+							<div class="col-md-1"><span id="purposes" class="text-muted"></span></div>
+							<div class="col-md-2"><span id="purposesDesc" class="text-muted"></span></div>
+						</div>
+					</li>
+					<li class="list-group-item" style="border-top: none;">
+						<div class="row">				
+							<div class="col-md-2 text-right"><span class="text-stress">房屋性质</span></div>
+							<div class="col-md-1"><span id="buildingType" class="text-muted"></span></div>
+							<div class="col-md-2"><span id="buildingTypeDesc" class="text-muted"></span></div>
+						</div>
+					</li>
+					<li class="list-group-item" style="border-top: none;">
+						<div class="row">				
+							<div class="col-md-2 text-right"><span class="text-stress">业务类型</span></div>
+							<div class="col-md-4"><span id="businessType" class="text-muted"></span></div>
+						</div>
+					</li>
+					<li class="list-group-item" style="border-top: none;">
+						<div class="row">				
+							<div class="col-md-2 text-right"><span class="text-stress">抵押情况</span></div>
+							<div class="col-md-1"><span id="businessSubType" class="text-muted"></span></div>
+							<div class="col-md-1"><span id="mortageBy" class="text-muted"></span></div>
+							<div class="col-md-2"><span id="mortageName" class="text-muted"></span></div>
+						</div>
+					</li>
+					<li class="list-group-item" style="border-top: none;">
+						<div class="row">				
+							<div class="col-md-2 text-right"><span class="text-stress">一抵剩余金额</span></div>
+							<div class="col-md-4"><span id="balance" class="text-muted"></span></div>
+						</div>
+					</li>
+					<li class="list-group-item list-group-title">
+						<div class="row">				
+							<div class="col-md-12"><span class="fa fa-gavel"> 房产评估信息</span></div>											
+						</div>
+					</li>		
+					<form id="update-form">				
+			    	<li class="list-group-item">
+						<div class="row">				
+							<div class="col-md-2 text-right"><strong>*</strong><span class="text-stress">市场估价</span></div>
+							<div class="col-md-2"><div class="input-group"><div style="font-size: 12px;" class="input-group-addon">¥</div><input id="marketAssess" type="text" class="form-control input-sm easyui-validatebox" placeholder="请输入市场估价" data-options="required:true,validType:['money','maxNum[9999]']" /><div style="font-size: 12px;" class="input-group-addon">万元</div></div></div>
+							<div class="col-md-2"></div>
+							<div class="col-md-2 text-right"><span class="text-stress">房屋估值</span></div>
+							<div class="col-md-2"><div class="input-group"><div style="font-size: 12px;" class="input-group-addon">¥</div><input id="houseAssess" type="text" class="form-control input-sm" disabled placeholder="请输入房屋估值" /><div style="font-size: 12px;" class="input-group-addon">万元</div></div></div>
+						</div>
+					</li>
+					
+					<li class="list-group-item" style="border-top: none;">
+						<div class="row">				
+							<div class="col-md-2 text-right"><span class="text-stress">建议授信额度</span></div>
+							<div class="col-md-2"><div class="input-group"><div style="font-size: 12px;" class="input-group-addon">¥</div><input id="suggestAssess" type="text" class="form-control input-sm" disabled placeholder="请输入建议授信额度" /><div style="font-size: 12px;" class="input-group-addon">万元</div></div></div>
+							<div class="col-md-2"></div>
+							<div class="col-md-2 text-right"><strong>*</strong><span class="text-stress">实际授信额度</span></div>
+							<div class="col-md-2"><div class="input-group"><div style="font-size: 12px;" class="input-group-addon">¥</div><input id="actualAssess" type="text" class="form-control input-sm easyui-validatebox" placeholder="请输入实际授信额度" data-options="required:true,validType:['money','maxNum[9999]']" /><div style="font-size: 12px;" class="input-group-addon">万元</div></div></div>
+						</div>
+					</li>
+					<li class="list-group-item" style="border-top: none;">
+						<div class="row">				
+							<div class="col-md-2 text-right"><span class="text-stress">房屋估价截图</span></div>
+							<div class="col-md-4">
+								<button id="btn-upload" type="button" class="btn btn-warning btn-sm" style="margin-top: -2px;">
+						    	 	<span class="fa fa-folder-open-o"></span> 上传房屋估价截图
+						    	</button>
+						    	<span id="printScreen"></span>
+						    	<span id="btn-remove"></span>
+							</div>
+						</div>
+					</li>
+					<li class="list-group-item" style="border-top: none;">
+						<div class="row">				
+							<div class="col-md-2 text-right"><span class="text-stress">备注</span></div>
+							<div class="col-md-8"><input id="houseDesc" style="margin-top: -2px;" type="text" class="form-control input-sm easyui-validatebox" placeholder="请输入备注" validType="maxLength[100]" /></div>
+						</div>
+					</li>
+					</form>
+					<li class="list-group-item list-group-title">
+						<div class="row">				
+							<div class="col-md-12"><span class="fa fa-list-ol"> 流程历史</span></div>											
+						</div>
+					</li>		
+				</ul>					    	
+			  	<table id="datagrid" class="table table-hover">
+					<thead>
+						<tr class="warning">
+							<th field="ck" align="text-center" class="text-center" hidden="true"></th>
+							<th field="rn" align="text-center" class="text-center">序号</th>
+							<th field="id" idField="true" hidden="true" align="text-center" class="text-center">ID</th>
+							<th field="procCtaskname" align="text-center" class="text-center">任务名称</th>
+							<th field="procTaskAssignee" align="text-center" class="text-center">处理人</th>
+							<th field="procMandatary" align="text-center" class="text-center">委托人</th>
+							<th field="procTaskCommittime" align="text-center" class="text-center">任务到达时间</th>
+							<th field="procTaskEndtime" align="text-center" class="text-center">任务处理时间</th>
+							<th field="procTaskEndtime" align="text-center" class="text-center">任务完成时间</th>
+							<th field="procTaskApprStatus" align="text-center" class="text-center">审批结论</th>
+							<th field="procTaskApprOpinion" align="text-center" class="text-center" formatter="Formatter.opinion(val)">审批意见</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+		</div>
+		
+		<form id="uploadForm">
+			<input id="file" class="hidden" type="file" name="qqfile" />
+		</form>
+	
+		<img id="img" class="hidden" />
+	
+	</body>
+</html>

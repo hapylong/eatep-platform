@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iqb.eatep.ec.contract.ssq.template.dao.ContractNoDao" >
+
+	<!-- 根据门店编码查询合同序号  -->
+	<select id="getContractSeq" resultType="int">
+		select CONTRACT_SEQ from iqb_ec_contract_no where STORE_NO = #{storeNo} and FROM_UNIXTIME(SIGN_DATE,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m')
+	</select>
+
+	<update id="addContractSeq">
+		UPDATE iqb_ec_contract_no SET CONTRACT_SEQ = CONTRACT_SEQ + 1 where STORE_NO = #{storeNo} and FROM_UNIXTIME(SIGN_DATE,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m')
+	</update>
+	
+	<insert id="addContractNo">
+		insert into iqb_ec_contract_no(STORE_NO, SIGN_DATE, CONTRACT_SEQ)values (#{storeNo}, unix_timestamp(), 1)
+	</insert>
+
+</mapper>

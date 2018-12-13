@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iqb.eatep.activemq.queue.persist.dao.QueuePersistDao" >
+
+	<!-- 保存mq通知记录  -->
+	<insert id="saveNotifyRecord" parameterType="com.iqb.eatep.activemq.domain.NotifyRecord" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO IQB_EC_MQ_LOG (msg, CREATE_TIME, STATUS, REMARK) VALUES(#{msg}, unix_timestamp(), #{status}, #{remark})
+	</insert>
+	
+	<!-- 更新mq通知记录  -->
+	<update id="updateNotifyRecord" parameterType="com.iqb.eatep.activemq.domain.NotifyRecord">
+		UPDATE IQB_EC_MQ_LOG SET STATUS = #{status} WHERE id = #{id}
+	</update>
+	
+</mapper>

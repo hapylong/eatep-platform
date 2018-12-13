@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="eatep.front:war">
+    <output-path>$PROJECT_DIR$/eatep.front/target</output-path>
+    <root id="archive" name="eatep.front.war">
+      <element id="artifact" artifact-name="eatep.front:war exploded" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iqb.eatep.ec.bizconfig.dao.BizConfigDao">
+  <resultMap id="BaseResultMap" type="com.iqb.eatep.ec.bizconfig.bean.BizConfigBean">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="BIZ_TPL_CODE" jdbcType="VARCHAR" property="bizTplCode" />
+    <result column="BIZ_TPL_NAME" jdbcType="VARCHAR" property="bizTplName" />
+    <result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
+    <result column="ORG_NAME" jdbcType="VARCHAR" property="orgName" />
+    <result column="IS_INCLUDE_JUNIOR" jdbcType="CHAR" property="isIncludeJunior" />
+    <result column="BIZ_TYPE" jdbcType="INTEGER" property="bizType" />
+    <result column="SIGN_TYPE" jdbcType="CHAR" property="signType" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+    <result column="CREATE_TIME" jdbcType="INTEGER" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="INTEGER" property="updateTime" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+    <result column="DELETE_FLAG" jdbcType="CHAR" property="deleteFlag" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="VERSION" jdbcType="INTEGER" property="version" />
+  </resultMap>
+  <resultMap id="UnionResultMap" type="com.iqb.eatep.ec.bizconfig.bean.BizConfigBean" extends="BaseResultMap">
+  	<id column="MAJOR_ID" jdbcType="INTEGER" property="id" />
+    <result column="BIZ_TPL_CODE" jdbcType="VARCHAR" property="bizTplCode" />
+    <result column="BIZ_TPL_NAME" jdbcType="VARCHAR" property="bizTplName" />
+    <result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
+    <result column="ORG_NAME" jdbcType="VARCHAR" property="orgName" />
+    <result column="IS_INCLUDE_JUNIOR" jdbcType="CHAR" property="isIncludeJunior" />
+    <result column="BIZ_TYPE" jdbcType="INTEGER" property="bizType" />
+    <result column="SIGN_TYPE" jdbcType="CHAR" property="signType" />
+    <result column="MAJOR_STATUS" jdbcType="INTEGER" property="status" />
+    <result column="MAJOR_CREATE_TIME" jdbcType="INTEGER" property="createTime" />
+    <result column="MAJOR_UPDATE_TIME" jdbcType="INTEGER" property="updateTime" />
+    <result column="MAJOR_CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="MAJOR_UPDATER" jdbcType="VARCHAR" property="updater" />
+    <result column="MAJOR_DELETE_FLAG" jdbcType="CHAR" property="deleteFlag" />
+    <result column="MAJOR_REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="MAJOR_VERSION" jdbcType="INTEGER" property="version" />
+	<collection property="contractTemplateBeanList" ofType="com.iqb.eatep.ec.contract.template.bean.ContractTemplateBean">
+		<id column="MINOR_ID" jdbcType="INTEGER" property="id" />
+	    <result column="EC_TPL_CODE" jdbcType="VARCHAR" property="ecTplCode" />
+	    <result column="EC_TPL_NAME" jdbcType="VARCHAR" property="ecTplName" />
+	    <result column="EC_TPL_THEME" jdbcType="VARCHAR" property="ecTplTheme" />
+	    <result column="EC_TPL_ABSTRACT" jdbcType="VARCHAR" property="ecTplAbstract" />
+	    <result column="EC_TPL_TYPE" jdbcType="INTEGER" property="ecTplType" />
+	    <result column="EC_TPL_STORAGE_FORM" jdbcType="INTEGER" property="ecTplStorageForm" />
+	    <result column="EC_TPL_CONTENT_DATA" jdbcType="VARCHAR" property="ecTplContentData" />
+	    <result column="EC_TPL_EFFECTIVE_DAYS" jdbcType="INTEGER" property="ecTplEffectiveDays" />
+	    <result column="IS_SENDER_PART_SIGN" jdbcType="CHAR" property="isSenderPartSign" />
+	    <result column="EC_TYPE" jdbcType="CHAR" property="ecType" />
+	    <result column="MINOR_STATUS" jdbcType="INTEGER" property="status" />
+	    <result column="MINOR_UPDATE_TIME" jdbcType="INTEGER" property="updateTime" />
+	    <result column="MINOR_CREATE_TIME" jdbcType="INTEGER" property="createTime" />
+	    <result column="MINOR_CREATER" jdbcType="VARCHAR" property="creater" />
+	    <result column="MINOR_UPDATER" jdbcType="VARCHAR" property="updater" />
+	    <result column="MINOR_DELETE_FLAG" jdbcType="CHAR" property="deleteFlag" />
+	    <result column="MINOR_REMARK" jdbcType="VARCHAR" property="remark" />
+	    <result column="MINOR_VERSION" jdbcType="INTEGER" property="version" />
+	    <result column="EC_TPL_CONTENT_DATA_BLOB" jdbcType="LONGVARBINARY" property="ecTplContentDataBlob" />
+	</collection>
+	<collection property="bizConfigTemplateBeanList" ofType="com.iqb.eatep.ec.bizconfig.bean.BizConfigTemplateBean">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+	    <result column="BIZ_CONFIG_ID" jdbcType="INTEGER" property="bizConfigId" />
+	    <result column="TEMPLATE_ID" jdbcType="INTEGER" property="templateId" />
+	    <result column="TEMPLATE_SIGN_SEQ" jdbcType="INTEGER" property="templateSignSeq" />
+	</collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, BIZ_TPL_CODE, BIZ_TPL_NAME, ORG_CODE, ORG_NAME, IS_INCLUDE_JUNIOR, BIZ_TYPE, SIGN_TYPE,
+    STATUS, CREATE_TIME, UPDATE_TIME, CREATER, UPDATER, DELETE_FLAG, REMARK, VERSION
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from iqb_ec_biz_config
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectToListOfBean" parameterType="com.iqb.eatep.ec.bizconfig.bean.BizConfigBean" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from iqb_ec_biz_config
+    <where>
+    	<if test="bizTplCode != null and bizTplCode != ''">
+	    	BIZ_TPL_CODE like concat('%', #{bizTplCode,jdbcType=VARCHAR}, '%')
+	    </if>
+	    <if test="bizTplName != null and bizTplName != ''">
+	    	and BIZ_TPL_NAME like concat('%', #{bizTplName,jdbcType=VARCHAR}, '%')
+	    </if>
+	    <if test="status != null">
+	    	and STATUS = #{status,jdbcType=INTEGER}
+	    </if>
+    </where>
+  </select>
+  <select id="selectToListOfBeanByParameterMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from iqb_ec_biz_config
+    <where>
+    	<if test="bizTplCode != null and bizTplCode != ''">
+	    	BIZ_TPL_CODE = #{bizTplCode,jdbcType=VARCHAR}
+	    </if>
+	    <if test="orgCode != null and orgCode != ''">
+	    	and ORG_CODE = #{orgCode,jdbcType=VARCHAR}
+	    </if>
+	    <if test="bizType != null">
+	    	and BIZ_TYPE = #{bizType,jdbcType=INTEGER}
+	    </if>
+    </where>
+  </select>
+  <select id="selectToListOfUnionBeanByParameterMap" parameterType="java.util.Map" resultMap="UnionResultMap">
+    select iqb_ec_biz_config.ID as MAJOR_ID, iqb_ec_biz_config.BIZ_TPL_CODE, iqb_ec_biz_config.BIZ_TPL_NAME, iqb_ec_biz_config.ORG_CODE, iqb_ec_biz_config.ORG_NAME, iqb_ec_biz_config.IS_INCLUDE_JUNIOR, iqb_ec_biz_config.BIZ_TYPE, 
+    iqb_ec_biz_config.STATUS as MAJOR_STATUS, iqb_ec_biz_config.CREATE_TIME as MAJOR_CREATE_TIME, iqb_ec_biz_config.UPDATE_TIME as MAJOR_UPDATE_TIME, iqb_ec_biz_config.CREATER as MAJOR_CREATER, iqb_ec_biz_config.UPDATER as MAJOR_UPDATER, iqb_ec_biz_config.DELETE_FLAG as MAJOR_DELETE_FLAG, iqb_ec_biz_config.REMARK as MAJOR_REMARK, iqb_ec_biz_config.VERSION as MAJOR_VERSION,
+    iqb_ec_template.ID as MINOR_ID, iqb_ec_template.EC_TPL_CODE, iqb_ec_template.EC_TPL_NAME, iqb_ec_template.EC_TPL_THEME, iqb_ec_template.EC_TPL_ABSTRACT, iqb_ec_template.EC_TPL_TYPE, iqb_ec_template.EC_TPL_STORAGE_FORM, 
+    iqb_ec_template.EC_TPL_CONTENT_DATA, iqb_ec_template.EC_TPL_EFFECTIVE_DAYS, iqb_ec_template.IS_SENDER_PART_SIGN, iqb_ec_template.EC_TYPE, iqb_ec_template.STATUS as MINOR_STATUS, iqb_ec_template.UPDATE_TIME as MINOR_UPDATE_TIME, 
+    iqb_ec_template.CREATE_TIME as MINOR_CREATE_TIME, iqb_ec_template.CREATER as MINOR_CREATER, iqb_ec_template.UPDATER as MINOR_UPDATER, iqb_ec_template.DELETE_FLAG as MINOR_DELETE_FLAG, iqb_ec_template.REMARK as MINOR_REMARK, iqb_ec_template.VERSION as MINOR_VERSION, iqb_ec_template.EC_TPL_CONTENT_DATA_BLOB,
+    iqb_biz_template.ID, iqb_biz_template.BIZ_CONFIG_ID, iqb_biz_template.TEMPLATE_ID, iqb_biz_template.TEMPLATE_SIGN_SEQ
+    from iqb_ec_biz_config
+    left join iqb_biz_template
+    on iqb_ec_biz_config.ID = iqb_biz_template.BIZ_CONFIG_ID
+    left join iqb_ec_template
+    on iqb_biz_template.TEMPLATE_ID = iqb_ec_template.ID
+    <where>
+    	iqb_ec_biz_config.STATUS = 1 
+    	<if test="bizTplCode != null and bizTplCode != ''">
+	    	AND iqb_ec_biz_config.BIZ_TPL_CODE = #{bizTplCode,jdbcType=VARCHAR}
+	    </if>
+	    <if test="orgCode != null and orgCode != ''">
+	    	and iqb_ec_biz_config.ORG_CODE = #{orgCode,jdbcType=VARCHAR}
+	    </if>
+<!-- 	    <if test="orgCode != null and orgCode != ''"> -->
+<!-- 	    	and iqb_ec_biz_config.ORG_CODE = substr(#{orgCode,jdbcType=VARCHAR}, 1, length(iqb_ec_biz_config.ORG_CODE)) -->
+<!-- 	    	and (length(iqb_ec_biz_config.ORG_CODE) = length(#{orgCode,jdbcType=VARCHAR}) or length(iqb_ec_biz_config.ORG_CODE) &lt; length(#{orgCode,jdbcType=VARCHAR}) and iqb_ec_biz_config.IS_INCLUDE_JUNIOR = '1') -->
+<!-- 	    </if> -->
+	    <if test="bizType != null">
+	    	and iqb_ec_biz_config.BIZ_TYPE = #{bizType,jdbcType=INTEGER}
+	    </if>
+    </where>
+    order by length(iqb_ec_biz_config.ORG_CODE) desc, iqb_biz_template.TEMPLATE_SIGN_SEQ DESC 
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from iqb_ec_biz_config
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.iqb.eatep.ec.bizconfig.bean.BizConfigBean">
+    insert into iqb_ec_biz_config (BIZ_TPL_CODE, BIZ_TPL_NAME, 
+      ORG_CODE, ORG_NAME, IS_INCLUDE_JUNIOR, 
+      BIZ_TYPE, SIGN_TYPE, STATUS, CREATE_TIME, 
+      UPDATE_TIME, CREATER, UPDATER, 
+      DELETE_FLAG, REMARK, VERSION
+      )
+    values (#{bizTplCode,jdbcType=VARCHAR}, #{bizTplName,jdbcType=VARCHAR}, 
+      #{orgCode,jdbcType=VARCHAR}, #{orgName,jdbcType=VARCHAR}, #{isIncludeJunior,jdbcType=CHAR}, 
+      #{bizType,jdbcType=INTEGER}, #{signType,jdbcType=CHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=INTEGER}, #{creater,jdbcType=VARCHAR}, #{updater,jdbcType=VARCHAR}, 
+      #{deleteFlag,jdbcType=CHAR}, #{remark,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iqb.eatep.ec.bizconfig.bean.BizConfigBean">
+    update iqb_ec_biz_config
+    <set>
+      <if test="bizTplCode != null">
+        BIZ_TPL_CODE = #{bizTplCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bizTplName != null">
+        BIZ_TPL_NAME = #{bizTplName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCode != null">
+        ORG_CODE = #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null">
+        ORG_NAME = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="isIncludeJunior != null">
+        IS_INCLUDE_JUNIOR = #{isIncludeJunior,jdbcType=CHAR},
+      </if>
+      <if test="bizType != null">
+        BIZ_TYPE = #{bizType,jdbcType=INTEGER},
+      </if>
+      <if test="signType != null">
+        SIGN_TYPE = #{signType,jdbcType=CHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="creater != null">
+        CREATER = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="updater != null">
+        UPDATER = #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null">
+        DELETE_FLAG = #{deleteFlag,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        VERSION = #{version,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iqb.eatep.ec.bizconfig.bean.BizConfigBean">
+    update iqb_ec_biz_config
+    set BIZ_TPL_CODE = #{bizTplCode,jdbcType=VARCHAR},
+      BIZ_TPL_NAME = #{bizTplName,jdbcType=VARCHAR},
+      ORG_CODE = #{orgCode,jdbcType=VARCHAR},
+      ORG_NAME = #{orgName,jdbcType=VARCHAR},
+      IS_INCLUDE_JUNIOR = #{isIncludeJunior,jdbcType=CHAR},
+      BIZ_TYPE = #{bizType,jdbcType=INTEGER},
+      SIGN_TYPE = #{signType,jdbcType=CHAR},
+      STATUS = #{status,jdbcType=INTEGER},
+      CREATE_TIME = #{createTime,jdbcType=INTEGER},
+      UPDATE_TIME = #{updateTime,jdbcType=INTEGER},
+      CREATER = #{creater,jdbcType=VARCHAR},
+      UPDATER = #{updater,jdbcType=VARCHAR},
+      DELETE_FLAG = #{deleteFlag,jdbcType=CHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      VERSION = #{version,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

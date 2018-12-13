@@ -1,0 +1,15 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.iqb</groupId>
+		<artifactId>eatep-platform</artifactId>
+		<version>1.0.0-EATEP</version>
+	</parent>
+	<artifactId>etep.web</artifactId>
+	<packaging>war</packaging>
+	<build>
+		<!--指定去掉后缀的工程名字，例如：默认为${artifactId}-${version}-->
+		<finalName>etep.web</finalName>
+	</build>
+</project>

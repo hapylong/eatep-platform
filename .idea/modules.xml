@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/eatep-platform.iml" filepath="$PROJECT_DIR$/eatep-platform.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eatep.activemq/eatep.activemq.iml" filepath="$PROJECT_DIR$/eatep.activemq/eatep.activemq.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eatep.crm/eatep.crm.iml" filepath="$PROJECT_DIR$/eatep.crm/eatep.crm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eatep.ec/eatep.ec.iml" filepath="$PROJECT_DIR$/eatep.ec/eatep.ec.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eatep.front/eatep.front.iml" filepath="$PROJECT_DIR$/eatep.front/eatep.front.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eatep.prd/eatep.prd.iml" filepath="$PROJECT_DIR$/eatep.prd/eatep.prd.iml" />
+      <module fileurl="file://$PROJECT_DIR$/etep.web/etep.web.iml" filepath="$PROJECT_DIR$/etep.web/etep.web.iml" />
+    </modules>
+  </component>
+</project>

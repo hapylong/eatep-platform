@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iqb.eatep.crm.depositrate.dao.CustomerDepositRateDao" >
+
+	<!-- 查询渠道保证金列表  -->
+	<select id="queryCustomerDepositRateList" parameterType="map" resultType="com.iqb.eatep.crm.depositrate.bean.DepositRateBean">
+		SELECT 
+		  icdr.ID,
+		  icdr.CUSTOMER_CODE AS customerCode,
+		  icbi.CUSTOMER_NAME AS customerName,
+		  icdr.BUSINESS_CLASS AS businessClass,
+		  icdr.BUSINESS_DETAIL AS businessDetail,
+		  icdr.DEPOSIT_RATE AS depositRate,
+		  icdr.REMARK 
+		FROM
+		  iqb_customer_deposit_rate icdr 
+		  LEFT JOIN iqb_customer_base_info icbi 
+		    ON icdr.CUSTOMER_CODE = icbi.CUSTOMER_CODE 
+		WHERE icdr.DELETE_FLAG = 1 
+		<if test="customerName != null and customerName != ''" >
+        	AND icbi.CUSTOMER_NAME LIKE '%${customerName}%'
+      	</if>
+		<if test="businessClass != null and businessClass != ''" >
+        	AND BUSINESS_CLASS = #{businessClass}
+      	</if>
+		<if test="businessDetail != null and businessDetail != ''" >
+        	AND BUSINESS_DETAIL = #{businessDetail}
+      	</if>
+		<if test="depositRateStart != null and depositRateStart != ''" >
+        	AND icdr.DEPOSIT_RATE <![CDATA[>=]]> #{depositRateStart}
+      	</if>
+		<if test="depositRateEnd != null and depositRateEnd != ''" >
+        	AND icdr.DEPOSIT_RATE <![CDATA[<=]]> #{depositRateEnd}
+      	</if>
+	</select>
+	
+	<!-- 根据业务大类获取业务子类  -->
+	<select id="getBusinessDetailListByBusinessClass" parameterType="map" resultType="map">
+		SELECT 
+		  isdi.DICT_CODE AS id,
+		  isdi.DICT_NAME AS 'text' 
+		FROM
+		  IQB_SYS_DICT_ITEM isdi 
+		WHERE isdi.DICT_TYPE_CODE = 'COMM_BIZ_SUBTYPE' 
+		  AND isdi.CASCADE_CODE = #{businessClass}  
+	</select>
+	
+	<!-- 插入客户信息  -->
+	<insert id="insertCustomerDepositRate" parameterType="map">
+		INSERT INTO iqb_customer_deposit_rate (
+		  CUSTOMER_CODE,
+		  BUSINESS_CLASS,
+		  BUSINESS_DETAIL,
+		  DEPOSIT_RATE,
+		  REMARK,
+		  DELETE_FLAG
+		) 
+		VALUES
+		  (#{customerCode}, #{businessClass}, #{businessDetail}, #{depositRate}, #{remark}, 1) 
+	</insert>
+		
+	<!-- 根据id获取客户渠道信息 -->
+	<select id="getCustomerDepositRateById" parameterType="map" resultType="com.iqb.eatep.crm.depositrate.bean.DepositRateBean">
+		SELECT 
+		  icdr.ID,
+		  icdr.CUSTOMER_CODE AS customerCode,
+		  icbi.CUSTOMER_NAME AS customerName,
+		  icdr.BUSINESS_CLASS AS businessClass,
+		  icdr.BUSINESS_DETAIL AS businessDetail,
+		  icdr.DEPOSIT_RATE AS depositRate,
+		  icdr.REMARK 
+		FROM
+		  iqb_customer_deposit_rate icdr 
+		  LEFT JOIN iqb_customer_base_info icbi 
+		    ON icdr.CUSTOMER_CODE = icbi.CUSTOMER_CODE 
+		WHERE icdr.DELETE_FLAG = 1 
+		  AND icdr.ID = #{id} 
+	</select>
+	
+	<!-- 根据id删除客户渠道信息  -->
+	<delete id="deleteCustomerDepositRateById" parameterType="map">
+		DELETE FROM iqb_customer_deposit_rate WHERE ID = #{id}
+	</delete>
+	
+	<!-- 根据id更新客户渠道信息  -->
+	<update id="updateCustomerDepositRateById" parameterType="map">
+		UPDATE iqb_customer_deposit_rate 
+		<set >
+	      <if test="customerCode != null and customerCode != ''" >
+	        CUSTOMER_CODE = #{customerCode},
+	      </if>
+	      <if test="businessClass != null and businessClass != ''" >
+	        BUSINESS_CLASS = #{businessClass},
+	      </if>
+	      <if test="businessDetail != null and businessDetail != ''" >
+	        BUSINESS_DETAIL = #{businessDetail},
+	      </if>
+	      <if test="depositRate != null and depositRate != ''" >
+	        DEPOSIT_RATE = #{depositRate},
+	      </if>
+	      <if test="remark != null and remark != ''" >
+	        REMARK = #{remark},
+	      </if>
+	    </set>
+	    WHERE ID = #{id} 
+	</update>
+	
+	<!-- 查询渠道列表  -->
+	<select id="queryChannelListForSelect" resultType="map">
+		SELECT CUSTOMER_CODE AS 'id', CUSTOMER_NAME AS 'text' FROM iqb_customer_base_info WHERE CUSTOMER_TYPE LIKE '%7%'
+	</select>
+	
+	<!-- 根据传入参数获取保证金信息  -->
+	<select id="getCustomerDepositRateInfo" parameterType="map" resultType="com.iqb.eatep.crm.depositrate.bean.DepositRateBean">
+		SELECT 
+		  icdr.ID,
+		  icdr.CUSTOMER_CODE AS customerCode,
+		  icbi.CUSTOMER_NAME AS customerName,
+		  icdr.BUSINESS_CLASS AS businessClass,
+		  icdr.BUSINESS_DETAIL AS businessDetail,
+		  icdr.DEPOSIT_RATE AS depositRate,
+		  icdr.REMARK 
+		FROM
+		  iqb_customer_deposit_rate icdr 
+		  LEFT JOIN iqb_customer_base_info icbi 
+		    ON icdr.CUSTOMER_CODE = icbi.CUSTOMER_CODE 
+		WHERE icdr.DELETE_FLAG = 1 
+		<if test="customerCode != null and customerCode != ''" >
+        	AND icdr.CUSTOMER_CODE = #{customerCode}
+      	</if>
+		<if test="customerCode == null or customerCode == ''" >
+        	AND icdr.CUSTOMER_CODE is null
+      	</if>
+		<if test="businessClass != null and businessClass != ''" >
+        	AND BUSINESS_CLASS = #{businessClass}
+      	</if>
+      	<if test="businessClass == null or businessClass == ''" >
+        	AND BUSINESS_CLASS is null
+      	</if>
+		<if test="businessDetail != null and businessDetail != ''" >
+        	AND BUSINESS_DETAIL = #{businessDetail}
+      	</if>
+      	<if test="businessDetail == null or businessDetail == ''" >
+        	AND BUSINESS_DETAIL is null
+      	</if>
+	</select>
+	
+	<!-- 根据条件获取渠道费率信息  -->
+	<select id="getCustomerDepositRateInfoByCons" parameterType="map" resultType="com.iqb.eatep.crm.depositrate.bean.DepositRateBean">
+		SELECT 
+		  icdr.ID,
+		  icdr.CUSTOMER_CODE AS customerCode,
+		  icbi.CUSTOMER_NAME AS customerName,
+		  icdr.BUSINESS_CLASS AS businessClass,
+		  icdr.BUSINESS_DETAIL AS businessDetail,
+		  icdr.DEPOSIT_RATE AS depositRate,
+		  icdr.REMARK 
+		FROM
+		  iqb_customer_deposit_rate icdr 
+		  LEFT JOIN iqb_customer_base_info icbi 
+		    ON icdr.CUSTOMER_CODE = icbi.CUSTOMER_CODE 
+		WHERE icdr.DELETE_FLAG = 1 
+		<if test="customerCode != null and customerCode != ''" >
+        	AND icdr.CUSTOMER_CODE = #{customerCode}
+      	</if>
+		<if test="customerCode == null or customerCode == ''" >
+        	AND icdr.CUSTOMER_CODE is null
+      	</if>
+		<if test="businessClass != null and businessClass != ''" >
+        	AND BUSINESS_CLASS = #{businessClass}
+      	</if>
+      	<if test="businessClass == null or businessClass == ''" >
+        	AND BUSINESS_CLASS is null
+      	</if>
+		<if test="businessDetail != null and businessDetail != ''" >
+        	AND BUSINESS_DETAIL = #{businessDetail}
+      	</if>
+      	<if test="businessDetail == null or businessDetail == ''" >
+        	AND BUSINESS_DETAIL is null
+      	</if>
+	</select>
+	
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.iqb</groupId>
+		<artifactId>eatep-platform</artifactId>
+		<version>1.0.0-EATEP</version>
+	</parent>
+	<artifactId>eatep.ec</artifactId>
+	<name>eatep.ec</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.iqb</groupId>
+			<artifactId>etep.common</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/etep.common-1.0.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.iqb</groupId>
+			<artifactId>etep.sysmanage</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/etep.sysmanage-1.0.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.iqb</groupId>
+			<artifactId>eatep.activemq</artifactId>
+			<version>1.0.0-EATEP</version>
+		</dependency>
+	</dependencies>
+</project>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iqb.eatep.ec.contract.ssq.template.dao.EcTemplateDao" >
+
+	<!-- 根据条件获取ec模板列表  -->
+	<select id="getEcTemplateListByCons" parameterType="map" resultType="com.iqb.eatep.ec.contract.ssq.bean.EcTemplateBean">
+	
+	</select>
+
+	<!-- 通过id获取ec模板信息  -->
+	<select id="getEcTemplateById" resultType="com.iqb.eatep.ec.contract.ssq.bean.EcTemplateBean">
+	
+	</select>
+
+	<!-- 通过模板代码获取模板信息  -->
+	<select id="getEcTemplateByTemplateCode" resultType="com.iqb.eatep.ec.contract.ssq.bean.EcTemplateBean">
+	
+	</select>
+
+</mapper>

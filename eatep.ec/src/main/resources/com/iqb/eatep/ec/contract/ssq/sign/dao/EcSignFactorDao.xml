@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iqb.eatep.ec.contract.ssq.sign.dao.EcSignFactorDao" >
+
+	<!-- 根据模板id获取ec签署方列表  -->
+	
+    <resultMap id="OrgInfo" type="com.iqb.eatep.ec.contract.ssq.sign.db.pojo.OrgInfo">
+    
+            <id column="ID" property="id"></id>
+            <result column="EC_SIGNER_CODE" property="ecSignerCode"></result>
+            <result column="EC_SIGNER_NAME" property="ecSignerName"></result>
+            <result column="EC_SIGNER_TYPE" property="ecSignerType"></result>
+            <result column="EC_SIGNER_CERT_TYPE" property="ecSignerCertType"></result>
+            <result column="EC_SIGNER_CERT_NO" property="ecSignerCertNo"></result>
+            <result column="EC_SIGNER_EMAIL" property="ecSignerEmail"></result>
+            <result column="EC_SIGNER_PHONE" property="ecSignerPhone"></result>
+            <result column="EC_SIGNER_ADDRESS" property="ecSignerAddress"></result>
+            <result column="EC_SIGNER_PROVINCE" property="ecSignerProvince"></result>
+            <result column="EC_SIGNER_CITY" property="ecSignerCity"></result>
+            <result column="IS_APPLY_CERT_COMPLETE" property="isApplyCertComplete"></result>
+            <result column="EC_SIGNER_CERT_PWD" property="ecSignerCertPwd"></result>
+            <result column="EC_SIGNER_CERT_PERIOD" property="ecSignerCertPeriod"></result>
+            <result column="IS_UPLOAD_SIGN_IMG" property="isUploadSignImg"></result>
+            <result column="EC_SIGNER_IMG_TYPE" property="ecSignerImgType"></result>
+            <result column="EC_SIGNER_IMG_NAME" property="ecSignerImgName"></result>
+            <result column="EC_SIGNER_IMG_DATA" property="ecSignerImgData"></result>
+            <result column="SSQ_UID" property="ssqUid"></result>
+            <result column="IS_SENDER" property="isSender"></result>
+            <result column="SOCIAL_CREDIT_CODE" property="socialCreditCode"></result>
+            <result column="BIZ_REG_NUM" property="bizRegNum"></result>
+            <result column="ORGANIZATION_CODE" property="organizationCode"></result>
+            <result column="TAX_REG_NUM" property="taxRegNum"></result>
+            <result column="EC_SIGNER_STATUS" property="ecSignerStatus"></result>
+            <result column="CREATE_TIME" property="createTime"></result>
+            <result column="UPDATE_TIME" property="updateTime"></result>
+            <result column="CREATER" property="creater"></result>
+            <result column="UPDATER" property="updater"></result>
+            <result column="DELETE_FLAG" property="deleteFlag"></result>
+            <result column="REMARK" property="remark"></result>
+            <result column="VERSION" property="version"></result>
+            <result column="CUSTOMER_SHORT_NAME" property="customerShortName"></result>
+            <result column="CUSTOMER_CODE" property="customerCode"></result>
+            <result column="CUSTOMER_NAME" property="customerName"></result>
+            <result column="IS_DEFAULT_SIGNER_IMG" property="isDefaultSignerImg"></result>
+            <result column="EC_SIGNER_PIC_NAME" property="ecSignerPicName"></result>
+            <result column="EC_SIGNER_IMG_DATA_BLOB" property="ecSignerImgDataBlob"></result>
+    </resultMap>
+    
+	<select id="listEcSignFactorByTemplateId" resultMap="OrgInfo">
+	
+	</select>
+	
+	<!-- 通过签署方code获取签署方信息  -->
+	<select id="getEcSignFactorByFactorCode" resultType="com.iqb.eatep.ec.contract.ssq.sign.bean.EcSignerEntity" parameterType="string">
+		SELECT 
+			ID as 'id',
+			EC_SIGNER_CODE as 'ecSignerCode',
+			EC_SIGNER_NAME as 'ecSignerName',
+			EC_SIGNER_TYPE as 'ecSignerType',
+			EC_SIGNER_CERT_TYPE as 'ecSignerCertType',
+			EC_SIGNER_CERT_NO as 'ecSignerCertNo',
+			EC_SIGNER_EMAIL as 'ecSignerEmail',
+			EC_SIGNER_PHONE as 'ecSignerPhone',
+			EC_SIGNER_ADDRESS as 'ecSignerAddress',
+			EC_SIGNER_PROVINCE as 'ecSignerProvince',
+			EC_SIGNER_CITY as 'ecSignerCity',
+			SOCIAL_CREDIT_CODE as 'socialCreditCode',
+			EC_SIGN_NOTIFY_URL as 'ecSignNotifyUrl',
+			BIZ_REG_NUM as 'bizRegNum',
+			ORGANIZATION_CODE as 'organizationCode',
+			TAX_REG_NUM as 'taxRegNum',
+			EC_SIGNER_STATUS as 'ecSignerStatus',
+			UPDATE_TIME as 'updateTime',
+			IS_APPLY_CERT_COMPLETE as 'isApplyCertComplete',
+			BUSINESS_LICENSE_NUM as businessLicenseNum,
+			STORE_NAME as storeName,
+			OPEN_BANK as openBank,
+			BANK_CARD_NUM as bankCardNum,
+			EMERGENCY_CONTRACT as emergencyContract,
+			EMERGENCY_CONTRACT_INFO as emergencyContractInfo,
+			SERVICE_CALL as serviceCall
+        FROM
+          IQB_EC_SIGNER 
+        WHERE
+          DELETE_FLAG = 0 AND
+          EC_SIGNER_CODE = #{factorCode}
+        LIMIT 1
+	</select>
+	
+	<!-- 插入签署方信息  -->
+	<insert id="insertFactorInfo" parameterType="map">
+		INSERT INTO iqb_ec_signer (
+		  EC_SIGNER_CODE,
+		  EC_SIGNER_NAME,
+		  EC_SIGNER_TYPE,
+		  EC_SIGNER_CERT_TYPE,
+		  EC_SIGNER_CERT_NO,
+		  EC_SIGNER_EMAIL,
+		  EC_SIGNER_PHONE,
+		  EC_SIGNER_ADDRESS,
+		  EC_SIGNER_PROVINCE,
+		  EC_SIGNER_CITY,
+		  EC_SIGN_NOTIFY_URL,
+		  EMERGENCY_CONTRACT,
+		  EMERGENCY_CONTRACT_INFO
+		) 
+		VALUES
+		  (#{ecSignerCode},
+		   #{ecSignerName}, 
+		   #{ecSignerType}, 
+		   #{ecSignerCertType}, 
+		   #{ecSignerCertNo}, 
+		   #{ecSignerEmail}, 
+		   #{ecSignerPhone}, 
+		   #{ecSignerAddress}, 
+		   #{ecSignerProvince}, 
+		   #{ecSignerCity},
+		   #{ecSignNotifyUrl},
+		   #{emergencyContact},
+		   #{emergencyContactInfo})
+	</insert>
+	
+	<sql id="Signer_Registered_Column_List">
+        a.ID, a.EC_SIGNER_NAME, a.EC_SIGNER_CERT_NO, a.EC_SIGNER_CODE, a.EC_SIGNER_PHONE, 
+        a.EC_SIGNER_EMAIL, a.EC_SIGNER_PROVINCE, a.EC_SIGNER_CITY, a.EC_SIGNER_ADDRESS, 
+        a.EC_SIGNER_STATUS, a.IS_UPLOAD_SIGN_IMG, a.IS_APPLY_CERT_COMPLETE,
+        b.CUSTOMER_SHORT_NAME
+    </sql>
+	<select id="getGroupSignerRegisteredPage" parameterType="java.util.Map" resultMap="OrgInfo">
+        SELECT 
+          <include refid="Signer_Registered_Column_List" />
+        FROM
+          IQB_EC_SIGNER a 
+        LEFT JOIN IQB_CUSTOMER_BASE_INFO b 
+          ON a.EC_SIGNER_CODE = b.CUSTOMER_CODE
+        <where>
+          <if test="sign_type != null and sign_type != ''" >
+             a.EC_SIGNER_TYPE = #{sign_type}
+          </if>
+          <if test="sign_state != null and sign_state != ''" >
+             AND a.IS_UPLOAD_SIGN_IMG = #{sign_state,jdbcType=VARCHAR}
+          </if>
+          <if test="phone_num != null and phone_num != ''" >
+             AND a.EC_SIGNER_PHONE like concat('%', #{phone_num,jdbcType=VARCHAR}, '%') 
+          </if>
+          <if test="name != null and name != ''" >
+             AND a.EC_SIGNER_NAME like concat('%', #{name,jdbcType=VARCHAR}, '%')
+          </if>
+          <if test="id_card != null and id_card != ''" >
+             AND a.EC_SIGNER_CERT_NO = #{id_card,jdbcType=VARCHAR}
+          </if>
+          <if test="org_code != null and org_code != ''" >
+             AND b.CUSTOMER_CODE = #{org_code,jdbcType=VARCHAR}
+          </if>
+        </where>
+    </select>
+    
+    <sql id="Org_Registered_Column_List">
+        a.ID, a.EC_SIGNER_NAME, a.EC_SIGNER_CODE, a.EC_SIGNER_TYPE, 
+        a.EC_SIGNER_PHONE, a.EC_SIGNER_EMAIL, 
+        a.EC_SIGNER_PROVINCE, a.EC_SIGNER_CITY, a.EC_SIGNER_ADDRESS, 
+        a.EC_SIGNER_STATUS, a.IS_UPLOAD_SIGN_IMG, a.IS_APPLY_CERT_COMPLETE,
+        b.CUSTOMER_NAME, b.CUSTOMER_SHORT_NAME_CODE as CUSTOMER_SHORT_NAME
+    </sql>
+    
+    <select id="getGroupOrgRegisteredPage" parameterType="java.util.Map" resultMap="OrgInfo">
+        SELECT 
+          <include refid="Org_Registered_Column_List" />
+        FROM
+          IQB_EC_SIGNER a 
+        LEFT JOIN IQB_CUSTOMER_BASE_INFO b 
+          ON a.EC_SIGNER_CODE = b.CUSTOMER_CODE
+        <where>
+        	 a.IS_UPLOAD_SIGN_IMG = 1
+          <if test="sign_type == '2,3'" >
+          	 and (a.EC_SIGNER_TYPE like '%2%' or a.EC_SIGNER_TYPE like '%3%')
+          </if>
+          <if test="sign_type != null and sign_type != '' and sign_type != '2,3'" >
+             and a.EC_SIGNER_TYPE = #{sign_type}
+          </if>
+          <if test="org_code != null and org_code != ''" >
+             AND b.CUSTOMER_CODE = #{org_code,jdbcType=VARCHAR}
+          </if>
+          <if test="short != null and short != ''" >
+             AND b.CUSTOMER_SHORT_NAME like concat('%', #{short,jdbcType=VARCHAR}, '%')
+          </if>
+          <if test="customerType != null and customerType != ''" >
+        	 AND a.EC_SIGNER_TYPE LIKE '%${customerType}%'
+      	  </if>
+          <if test="short_num != null and short_num != ''" >
+             AND b.CUSTOMER_SHORT_NAME_CODE like concat('%', #{short_num,jdbcType=VARCHAR}, '%') 
+          </if>
+        </where>
+    </select>
+    
+    <update id="persistSignatureStampDirectly">
+    	insert into IQB_EC_SIGNER (EC_SIGNER_CODE, EC_SIGNER_CERT_NO ,EC_SIGNER_PIC_NAME, EC_SIGNER_IMG_DATA_BLOB) values (#{ecSignerCertNo}, #{ecSignerCertNo}, #{name}, #{bytes})
+    </update>
+    
+    <update id="updateGroupSignerRegisteredInfoDirectly">
+          UPDATE IQB_EC_SIGNER 
+            <set>
+                <if test="ec_signer_img_type_update != null and ec_signer_img_type_update != ''" >
+                    EC_SIGNER_IMG_TYPE = #{ec_signer_img_type_update,jdbcType=INTEGER},
+                </if>
+                <if test="is_default_signer_img_update != null and is_default_signer_img_update != ''" >
+                    IS_DEFAULT_SIGNER_IMG = #{is_default_signer_img_update,jdbcType=VARCHAR},
+                </if>
+                <if test="ec_signer_img_name_update != null and ec_signer_img_name_update != ''" >
+                    EC_SIGNER_IMG_NAME = #{ec_signer_img_name_update,jdbcType=VARCHAR},
+                </if>
+                <if test="ec_signer_pic_name_update != null and ec_signer_pic_name_update != ''" >
+                    EC_SIGNER_PIC_NAME = #{ec_signer_pic_name_update,jdbcType=VARCHAR},
+                </if>
+            </set>
+            WHERE 
+                <if test="ecSignerCertNo != null and ecSignerCertNo != ''" >
+                    EC_SIGNER_CODE = #{ecSignerCertNo,jdbcType=VARCHAR}
+                </if>
+                <if test="ecSignerCode != null and ecSignerCode != ''" >
+                    EC_SIGNER_CODE = #{ecSignerCode,jdbcType=VARCHAR}
+                </if>
+    </update>
+    
+    <select id="getImageGroupSignerRegisteredInfo" resultMap="OrgInfo">
+          SELECT 
+              EC_SIGNER_NAME, EC_SIGNER_IMG_TYPE, IS_DEFAULT_SIGNER_IMG, EC_SIGNER_IMG_NAME, EC_SIGNER_PIC_NAME, EC_SIGNER_IMG_DATA_BLOB
+            FROM
+          IQB_EC_SIGNER
+            WHERE 
+                ID = #{id,jdbcType=INTEGER}
+    </select>
+    
+    <select id="getImageGroupOrgRegisteredInfo" resultMap="OrgInfo">
+          SELECT 
+              EC_SIGNER_NAME, EC_SIGNER_IMG_TYPE, IS_DEFAULT_SIGNER_IMG, EC_SIGNER_IMG_NAME, EC_SIGNER_PIC_NAME, EC_SIGNER_IMG_DATA_BLOB
+            FROM
+          IQB_EC_SIGNER
+            WHERE 
+                ID = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getSenderInfo" resultType="com.iqb.eatep.ec.contract.ssq.sign.bean.EcSignerEntity">
+	    SELECT 
+		  ID AS 'id',
+		  EC_SIGNER_CODE AS 'ecSignerCode',
+		  EC_SIGNER_NAME AS 'ecSignerName',
+		  EC_SIGNER_TYPE AS 'ecSignerType',
+		  EC_SIGNER_PHONE AS 'ecSignerPhone'
+		FROM
+		  IQB_EC_SIGNER 
+		WHERE DELETE_FLAG = 0 
+		  AND IS_SENDER = 1 LIMIT 1
+    </select>
+    
+    <!-- 更新上上签用户id -->
+    <update id="updateFactorSsqUid" parameterType="map">
+    	UPDATE iqb_ec_signer
+    	<set>
+            <if test="ssqUid != null and ssqUid != ''" >
+                SSQ_UID = #{ssqUid}, EC_SIGNER_STATUS = 1, 
+            </if>
+            <if test="ecSignerStatus != null and ecSignerStatus != ''" >
+                EC_SIGNER_STATUS = #{ecSignerStatus},
+            </if>
+        </set>
+        WHERE EC_SIGNER_CODE = #{ecSignerCode}
+    </update>
+    
+    <!-- 更新上上签用户信息 -->
+    <update id="updateFactorInfo" parameterType="map">
+    	UPDATE iqb_ec_signer 
+        <set>
+            <if test="isApplyCertComplete != null and isApplyCertComplete != ''" >
+                IS_APPLY_CERT_COMPLETE = #{isApplyCertComplete}
+            </if>
+        </set>
+        WHERE 
+            EC_SIGNER_CODE = #{ecSignerCode}
+    </update>
+    <resultMap id="PersistConsumerInfo" type="com.iqb.eatep.ec.contract.ssq.sign.db.pojo.ContractParticipantSingerPersistPojo">
+            <!-- <result column="CUSTOMER_CODE" property="ecSignerCode"></result> 以ID_NO 为 signerCode：重写 Pojo中 ecSignerCertNo 的 Set方法 同时赋值-->
+            <result column="CUSTOMER_CODE" property="ecSignerCode"></result>
+            <result column="ADDRESS_DETAIL" property="ecSignerAddress"></result>
+            <result column="PROVINCE" property="ecSignerProvince"></result>
+            <result column="CITY" property="ecSignerCity"></result>
+            
+            <result column="CREDITOR_NAME" property="ecSignerName"></result>
+            <result column="CREDITOR_ID_NO" property="ecSignerCertNo"></result>
+            <result column="CREDITOR_PHONE" property="ecSignerPhone"></result>
+    </resultMap>
+    
+    <sql id="Persist_Consumer_Info_Column_List">
+        a.CUSTOMER_CODE, a.ADDRESS_DETAIL, a.PROVINCE, a.CITY, 
+        b.CREDITOR_NAME, b.CREDITOR_ID_NO, b.CREDITOR_PHONE
+    </sql>
+    <select id="getPersistConsumerInfoList" parameterType="java.util.Map" resultMap="OrgInfo">
+            SELECT
+              a.CUSTOMER_CODE,
+			  a.CUSTOMER_SHORT_NAME AS customerShortName,
+			  a.ADDRESS_DETAIL AS ecSignerAddress,
+			  a.PROVINCE AS ecSignerProvince,
+			  a.CITY AS ecSignerCity,
+			  b.CREDITOR_NAME AS ecSignerName,
+			  b.CREDITOR_ID_NO AS ecSignerCertNo,
+			  b.CREDITOR_PHONE AS ecSignerPhone
+            FROM
+                IQB_CUSTOMER_STORE_INFO b
+            LEFT JOIN
+                IQB_CUSTOMER_BASE_INFO a 
+            ON a.CUSTOMER_CODE = b.CUSTOMER_CODE
+            <where>
+              <if test="phone_num != null and phone_num != ''" >
+                 b.CREDITOR_PHONE like concat('%', #{phone_num,jdbcType=VARCHAR}, '%')
+              </if>
+              <if test="name != null and name != ''" >
+                 AND b.CREDITOR_NAME like concat('%', #{name,jdbcType=VARCHAR}, '%')
+              </if>
+              <if test="id_card != null and id_card != ''" >
+                 AND b.CREDITOR_ID_NO like concat('%', #{id_card,jdbcType=VARCHAR}, '%') 
+              </if>
+              <if test="org_code != null and org_code != ''" >
+	             AND a.CUSTOMER_CODE = #{org_code,jdbcType=VARCHAR}
+	          </if>
+	          <if test="id_list != null and id_list != ''">
+                 AND b.CREDITOR_ID_NO NOT IN 
+                    <foreach item="item" index="index" collection="id_list" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+              </if>
+            </where>
+    </select>
+    
+     <!-- 根据客户编码获取客户信息  -->
+    <select id="getPersistConsumerInfoByCertNo" parameterType="string" resultMap="OrgInfo">
+		SELECT 
+		  a.CUSTOMER_CODE,
+		  a.CUSTOMER_SHORT_NAME AS customerShortName,
+		  a.ADDRESS_DETAIL AS ecSignerAddress,
+		  a.PROVINCE AS ecSignerProvince,
+		  a.CITY AS ecSignerCity,
+		  a.CUSTOMER_TYPE AS ecSignerType,
+		  b.CREDITOR_NAME AS ecSignerName,
+		  b.CREDITOR_ID_NO AS ecSignerCertNo,
+		  b.CREDITOR_PHONE AS ecSignerPhone,
+		  b.CREDITOR_BANK_NAME AS openBank,
+		  b.CREDITOR_BANK_NO AS bankCardNum 
+		FROM
+		  IQB_CUSTOMER_STORE_INFO b 
+		  LEFT JOIN IQB_CUSTOMER_BASE_INFO a 
+		    ON a.CUSTOMER_CODE = b.CUSTOMER_CODE 
+		WHERE b.CREDITOR_ID_NO = #{ecSignerCertNo}
+		<if test="ecSignerPhone != null and ecSignerPhone != ''" >
+			AND b.CREDITOR_PHONE = #{ecSignerPhone}
+        </if>
+		 LIMIT 1
+    </select>
+    
+    <!-- 根据客户编码获取客户信息  -->
+    <select id="getPersistConsumerInfoByCode" parameterType="string" resultMap="OrgInfo">
+		SELECT 
+		  a.ADDRESS_DETAIL AS ecSignerAddress,
+		  b.BUSINESS_CONTACT_IDCARD AS ecSignerCertNo,
+		  a.PROVINCE AS ecSignerProvince,
+		  a.CITY AS ecSignerCity,
+		  a.CUSTOMER_CODE AS ecSignerCode,
+		  a.CUSTOMER_TYPE as ecSignerType,
+		  b.ENTERPRISE_MAILBOX AS ecSignerEmail,
+		  a.CORPORATE_NAME AS ecSignerName,
+		  b.LEGAL_PERSON_PHONE_NUM AS ecSignerPhone,
+		  b.BUSINESS_CONTACT_NAME AS enterpriseLinkMan,
+		  b.ORGANIZATION_CODE AS organizationCode,
+		  b.SOCIAL_CREDIT_CODE AS socialCreditCode,
+		  b.TAX_CERTIFICATE_CODE AS taxRegNum,
+		  b.IC_REG_CODE AS bizRegNum,
+		  b.BUSINESS_LICENSE_NUM AS businessLicenseNum,
+		  b.SERVICE_CALL AS serviceCall,
+		  a.CUSTOMER_NAME AS storeName,
+		  c.CREDITOR_BANK_NAME AS openBank,
+		  c.CREDITOR_ID_NO AS bankCardNum
+		FROM
+		  IQB_ENTERPRISE_CUSTOMER_INFO b 
+		  LEFT JOIN IQB_CUSTOMER_BASE_INFO a 
+		    ON a.CUSTOMER_CODE = b.CUSTOMER_CODE 
+		  LEFT JOIN iqb_customer_store_info c 
+		    ON b.CUSTOMER_CODE = c.CUSTOMER_CODE 
+		WHERE a.CUSTOMER_CODE = #{ecSignerCode} LIMIT 1
+    </select>
+    
+    <select id="getCustomerCodeListByConditions" parameterType="java.util.Map" resultType="String">
+        SELECT 
+          a.EC_SIGNER_CODE
+        FROM
+          IQB_EC_SIGNER a 
+        LEFT JOIN IQB_CUSTOMER_BASE_INFO b 
+          ON a.EC_SIGNER_CODE = b.CUSTOMER_CODE
+        <where>
+        	 a.IS_UPLOAD_SIGN_IMG = 1 
+          <if test="sign_type == '2,3'" >
+          	 and (a.EC_SIGNER_TYPE like '%2%' or a.EC_SIGNER_TYPE like '%3%')
+          </if>
+          <if test="sign_type != null and sign_type != '' and sign_type != '2,3'" >
+             and a.EC_SIGNER_TYPE = #{sign_type}
+          </if>
+          <if test="phone_num != null and phone_num != ''" >
+             AND a.EC_SIGNER_PHONE = #{phone_num,jdbcType=VARCHAR}
+          </if>
+          <if test="name != null and name != ''" >
+             AND a.EC_SIGNER_NAME = #{name,jdbcType=VARCHAR}
+          </if>
+          <if test="org_code != null and org_code != ''" >
+             AND b.ORG_CODE = #{org_code,jdbcType=VARCHAR}
+          </if>
+        </where>
+                
+    </select>
+    
+    <select id="getOrgCodeListByConditions" parameterType="java.util.Map" resultType="String">
+            SELECT
+                a.EC_SIGNER_CODE
+            FROM
+                IQB_EC_SIGNER a
+            LEFT JOIN 
+                IQB_CUSTOMER_BASE_INFO b 
+            ON 
+                a.EC_SIGNER_CODE = b.CUSTOMER_CODE
+            <where>
+            		 a.IS_UPLOAD_SIGN_IMG = 1 
+				  <if test="sign_type == '2,3'" >
+		          	 and (a.EC_SIGNER_TYPE like '%2%' or a.EC_SIGNER_TYPE like '%3%')
+		          </if>
+		          <if test="sign_type != null and sign_type != '' and sign_type != '2,3'" >
+		             and a.EC_SIGNER_TYPE = #{sign_type}
+		          </if>
+                  <if test="org_code != null and org_code != ''" >
+		             AND b.ORG_CODE = #{org_code,jdbcType=VARCHAR}
+		          </if>
+		          <if test="short != null and short != ''" >
+	                 AND b.CUSTOMER_SHORT_NAME = #{short,jdbcType=VARCHAR}
+	              </if>
+	              <if test="short_num != null and short_num != ''" >
+	                 AND b.CUSTOMER_SHORT_NAME_CODE = #{short_num,jdbcType=VARCHAR}
+	              </if>
+            </where>
+    </select>
+    
+    <resultMap id="PersistOrgInfo" type="com.iqb.eatep.ec.contract.ssq.sign.db.pojo.ContractParticipantOrgPersistPojo">
+            <result column="CUSTOMER_CODE" property="ecSignerCode"></result>
+            <result column="ADDRESS_DETAIL" property="ecSignerAddress"></result>
+            <result column="PROVINCE" property="ecSignerProvince"></result>
+            <result column="CITY" property="ecSignerCity"></result>
+            <result column="CUSTOMER_NAME" property="ecSignerName"></result>
+            
+            <result column="UNIFORM_CREDIT_CODE" property="socialCreditCode"></result>
+            <result column="ORGANIZATION_CODE" property="organizationCode"></result>
+            <result column="TAX_CERTIFICATE_CODE" property="taxRegNum"></result>
+            <result column="ACCOUNT_PERMIT_CODE" property="bizRegNum"></result>
+            <result column="BUSINESS_CONTACT_IDCARD" property="ecSignerCertNo"></result>
+            <result column="BUSINESS_CONTACT_NAME" property="enterpriseLinkMan"></result>
+            <result column="ENTERPRISE_MAILBOX" property="ecSignerEmail"></result>
+            <result column="SERVICE_CALL" property="ecSignerPhone"></result>
+    </resultMap>
+    <sql id="Persist_Org_Info_Column_List">
+        a.CUSTOMER_CODE, a.ADDRESS_DETAIL, a.PROVINCE, a.CITY, a.CUSTOMER_NAME,
+        b.UNIFORM_CREDIT_CODE, b.ORGANIZATION_CODE, b.TAX_CERTIFICATE_CODE, b.ACCOUNT_PERMIT_CODE,
+        b.BUSINESS_CONTACT_IDCARD, b.BUSINESS_CONTACT_NAME, b.ENTERPRISE_MAILBOX, b.SERVICE_CALL
+    </sql>
+    <select id="getPersistOrgInfoList" parameterType="java.util.Map" resultMap="OrgInfo">
+    		SELECT 
+			  a.CUSTOMER_CODE as ecSignerCode,
+			  a.ADDRESS_DETAIL as ecSignerAddress,
+			  a.PROVINCE as ecSignerProvince,
+			  a.CITY as ecSignerCity,
+			  a.CUSTOMER_NAME as customerName,
+			  a.CUSTOMER_SHORT_NAME_CODE as customerShortName,
+			  a.CUSTOMER_TYPE AS ecSignerType,
+			  b.UNIFORM_CREDIT_CODE,
+			  b.ORGANIZATION_CODE,
+			  b.TAX_CERTIFICATE_CODE,
+			  b.ACCOUNT_PERMIT_CODE,
+			  b.BUSINESS_CONTACT_IDCARD,
+			  b.BUSINESS_CONTACT_NAME,
+			  b.ENTERPRISE_MAILBOX as ecSignerEmail,
+			  b.SERVICE_CALL as ecSignerPhone
+			FROM
+			  IQB_ENTERPRISE_CUSTOMER_INFO b 
+			  LEFT JOIN IQB_CUSTOMER_BASE_INFO a 
+			    ON a.CUSTOMER_CODE = b.CUSTOMER_CODE 
+            <where>
+            	 (a.CUSTOMER_TYPE like '%2%' or a.CUSTOMER_TYPE like '%3%')
+              <if test="org_code != null and org_code != ''" >
+                 AND a.CUSTOMER_CODE = #{org_code,jdbcType=VARCHAR}
+              </if>
+              <if test="short != null and short != ''" >
+                 AND a.CUSTOMER_SHORT_NAME like concat('%', #{short,jdbcType=VARCHAR}, '%') 
+              </if>
+              <if test="short_name != null and short_name != ''" >
+                 AND a.CUSTOMER_SHORT_NAME_CODE like concat('%', #{short_name,jdbcType=VARCHAR}, '%') 
+              </if>
+              <if test="customerType != null and customerType != ''" >
+	        	 AND a.CUSTOMER_TYPE LIKE '%${customerType}%'
+	      	  </if>
+              <if test="id_list != null and id_list != ''">
+                 AND a.CUSTOMER_CODE NOT IN 
+                    <foreach item="item" index="index" collection="id_list" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+              </if>
+            </where>
+                
+    </select>
+    
+    <insert id="persistEcSignerEntity" parameterType="com.iqb.eatep.ec.contract.ssq.sign.bean.EcSignerEntity">
+	    INSERT INTO IQB_EC_SIGNER (
+		  EC_SIGNER_ADDRESS,
+		  EC_SIGNER_CERT_TYPE,
+		  EC_SIGNER_CERT_NO,
+		  EC_SIGNER_EMAIL,
+		  EC_SIGNER_CITY,
+		  EC_SIGNER_CODE,
+		  EC_SIGNER_NAME,
+		  EC_SIGNER_PHONE,
+		  EC_SIGNER_CERT_PWD,
+		  EC_SIGNER_PROVINCE,
+		  EC_SIGNER_TYPE,
+		  IS_UPLOAD_SIGN_IMG,
+		  EC_SIGNER_STATUS,
+		  OPEN_BANK,
+		  BANK_CARD_NUM,
+		  SERVICE_CALL,
+		  CREATE_TIME,
+		  CREATER,
+		  EC_SIGNER_PIC_NAME,
+		  EC_SIGNER_IMG_DATA_BLOB
+		) 
+		VALUES
+		  (#{ecSignerAddress}, 0, #{ecSignerCertNo}, #{ecSignerPhone}, #{ecSignerCity}, 
+		  #{ecSignerCertNo}, #{ecSignerName}, #{ecSignerPhone}, #{ecSignerCertPwd},
+		  #{ecSignerProvince}, #{ecSignerType}, #{isUploadSignImg}, 
+		  #{ecSignerStatus}, #{openBank}, #{bankCardNum}, #{serviceCall}, #{createTime}, #{creater},
+		  #{ecSignerPicName}, #{ecSignerImgDataBlob})  
+    </insert>
+    
+    <insert id="persistEcOrgEntity" parameterType="com.iqb.eatep.ec.contract.ssq.sign.bean.EcSignerEntity">
+        INSERT INTO IQB_EC_SIGNER (
+		  EC_SIGNER_CODE,
+		  EC_SIGNER_NAME,
+		  EC_SIGNER_TYPE,
+		  EC_SIGNER_CERT_TYPE,
+		  EC_SIGNER_CERT_NO,
+		  EC_SIGNER_EMAIL,
+		  EC_SIGNER_PHONE,
+		  EC_SIGNER_ADDRESS,
+		  EC_SIGNER_PROVINCE,
+		  EC_SIGNER_CITY,
+		  IS_APPLY_CERT_COMPLETE,
+		  EC_SIGNER_CERT_PWD,
+		  EC_SIGNER_CERT_PERIOD,
+		  IS_UPLOAD_SIGN_IMG,
+		  EC_SIGNER_IMG_TYPE,
+		  EC_SIGNER_IMG_NAME,
+		  EC_SIGNER_PIC_NAME,
+		  IS_DEFAULT_SIGNER_IMG,
+		  EC_SIGNER_IMG_DATA,
+		  EC_SIGNER_IMG_DATA_BLOB,
+		  SSQ_UID,
+		  IS_SENDER,
+		  SOCIAL_CREDIT_CODE,
+		  BIZ_REG_NUM,
+		  ORGANIZATION_CODE,
+		  TAX_REG_NUM,
+		  ENTERPRISE_LINK_MAN,
+		  EC_SIGNER_STATUS,
+		  BUSINESS_LICENSE_NUM,
+		  STORE_NAME,
+		  SERVICE_CALL,
+		  OPEN_BANK,
+		  BANK_CARD_NUM,
+		  CREATE_TIME,
+		  UPDATE_TIME,
+		  CREATER,
+		  UPDATER,
+		  DELETE_FLAG,
+		  REMARK,
+		  VERSION
+		) 
+		VALUES
+		  (#{ecSignerCode}, #{ecSignerName}, #{ecSignerType}, 0, #{ecSignerCertNo}, #{ecSignerEmail}, #{ecSignerPhone}, #{ecSignerAddress},
+		  #{ecSignerProvince}, #{ecSignerCity}, #{isApplyCertComplete}, #{ecSignerCertPwd}, #{ecSignerCertPeriod}, #{isUploadSignImg}, #{ecSignerImgType},
+		  #{ecSignerImgName}, #{ecSignerPicName}, #{isDefaultSignerImg}, #{ecSignerImgData}, #{ecSignerImgDataBlob}, #{ssqUid}, #{isSender}, #{socialCreditCode},
+		  #{bizRegNum}, #{organizationCode}, #{taxRegNum}, #{enterpriseLinkMan}, #{ecSignerStatus},#{businessLicenseNum},#{storeName},#{serviceCall},#{openBank},#{bankCardNum}, 
+		  #{createTime}, #{updateTime}, #{creater}, #{updater}, '0', #{remark}, #{version}) 
+    </insert>
+    
+    <sql id="SSQRequestUniqueResult">
+        EC_SIGNER_TYPE,EC_SIGNER_EMAIL,EC_SIGNER_PHONE,EC_SIGNER_NAME,EC_SIGNER_IMG_DATA_BLOB,EC_SIGNER_IMG_NAME,
+        EC_SIGNER_CERT_PWD, EC_SIGNER_CERT_TYPE, EC_SIGNER_CERT_NO, EC_SIGNER_PROVINCE, EC_SIGNER_CITY,
+        EC_SIGNER_ADDRESS, BIZ_REG_NUM, ORGANIZATION_CODE, TAX_REG_NUM, ENTERPRISE_LINK_MAN, STORE_NAME
+    </sql>
+    
+    <resultMap id="SSQRequestUniqueResultPojo" type="com.iqb.eatep.ec.contract.ssq.sign.db.pojo.SSQRequestUniqueResultPojo">
+            <result column="EC_SIGNER_TYPE" property="ecSignerType"></result>
+		    <result column="EC_SIGNER_EMAIL" property="ecSignerEmail"></result>
+		    <result column="EC_SIGNER_PHONE" property="ecSignerPhone"></result>
+		    <result column="EC_SIGNER_NAME" property="ecSignerName"></result>
+		    
+		    <result column="EC_SIGNER_IMG_DATA_BLOB" property="ecSignerImgDataBlob"></result>
+		    <result column="EC_SIGNER_IMG_NAME" property="ecSignerImgName"></result>
+		    
+            <result column="EC_SIGNER_CERT_PWD" property="ecSignerCertPwd"></result>
+            <result column="EC_SIGNER_CERT_TYPE" property="ecSignerCertType"></result>
+            <result column="EC_SIGNER_CERT_NO" property="ecSignerCertNo"></result>
+            <result column="EC_SIGNER_PROVINCE" property="ecSignerProvince"></result>
+            <result column="EC_SIGNER_CITY" property="ecSignerCity"></result>
+            <result column="EC_SIGNER_ADDRESS" property="ecSignerAddress"></result>
+
+            <result column="BIZ_REG_NUM" property="bizRegNum"></result>
+            <result column="ORGANIZATION_CODE" property="organizationCode"></result>
+            <result column="TAX_REG_NUM" property="taxRegNum"></result>
+            <result column="ENTERPRISE_LINK_MAN" property="linkMan"></result>
+            <result column="STORE_NAME" property="storeName"></result>
+    </resultMap>
+    
+    <select id="findByCode" resultMap="SSQRequestUniqueResultPojo">
+          SELECT 
+              <include refid="SSQRequestUniqueResult" />
+          FROM
+          	IQB_EC_SIGNER
+          WHERE 
+            EC_SIGNER_CERT_NO = #{ecSignerCertNo,jdbcType=VARCHAR}
+            AND EC_SIGNER_TYPE = #{sign_type}
+    </select>
+    
+    <select id="findOrgInfoByCode" resultMap="SSQRequestUniqueResultPojo">
+          SELECT 
+              <include refid="SSQRequestUniqueResult" />
+          FROM
+          	IQB_EC_SIGNER
+          WHERE 
+            EC_SIGNER_CODE = #{ecSignerCode,jdbcType=VARCHAR}
+          Limit 1
+    </select>
+    
+    <update id="updateStateValueByCode">
+          UPDATE IQB_EC_SIGNER 
+            <set>
+                EC_SIGNER_STATUS = 1,
+                IS_APPLY_CERT_COMPLETE = 1,
+                IS_UPLOAD_SIGN_IMG = 1
+            </set>
+            WHERE 
+            	EC_SIGNER_CODE = #{ecSignerCertNo,jdbcType=VARCHAR}
+    </update>
+    
+    <!-- 更新用户签章信息  -->
+    <update id="updateSignatureStamp">
+    	UPDATE IQB_EC_SIGNER 
+            SET 
+                EC_SIGNER_PIC_NAME = #{name,jdbcType=VARCHAR}, 
+                EC_SIGNER_IMG_DATA_BLOB = #{bytes,jdbcType=LONGVARBINARY}
+            WHERE 
+                EC_SIGNER_CERT_NO = #{ecSignerCertNo,jdbcType=VARCHAR}
+    </update>
+    
+    <!-- 更新用户签章信息  -->
+    <update id="updateOrgSignatureStamp">
+    	UPDATE IQB_EC_SIGNER 
+            SET 
+                EC_SIGNER_PIC_NAME = #{name,jdbcType=VARCHAR}, 
+                EC_SIGNER_IMG_DATA_BLOB = #{bytes,jdbcType=LONGVARBINARY}
+            WHERE 
+                EC_SIGNER_CODE = #{ecSignerCode,jdbcType=VARCHAR}
+    </update>
+    
+    <select id="getEcSignerInfoByPhone" resultType="com.iqb.eatep.ec.contract.ssq.sign.bean.EcSignerEntity">
+          SELECT 
+          	EC_SIGNER_CODE as ecSignerCode,
+          	EC_SIGNER_PHONE as ecSignerPhone,
+          	EC_SIGNER_NAME as ecSignerName
+          FROM
+          	IQB_EC_SIGNER
+          WHERE 
+            EC_SIGNER_PHONE = #{ecSignerPhone,jdbcType=VARCHAR}
+          Limit 1
+    </select>
+    
+    <select id="getEcSignerInfoByEmail" resultType="com.iqb.eatep.ec.contract.ssq.sign.bean.EcSignerEntity">
+          SELECT 
+          	EC_SIGNER_CODE as ecSignerCode,
+          	EC_SIGNER_PHONE as ecSignerPhone,
+          	EC_SIGNER_NAME as ecSignerName
+          FROM
+          	IQB_EC_SIGNER
+          WHERE 
+            EC_SIGNER_EMAIL = #{ecSignerEmail,jdbcType=VARCHAR}
+          Limit 1
+    </select>
+    
+    <delete id="delEcSignFactorByFactorCode">
+    	DELETE FROM IQB_EC_SIGNER WHERE EC_SIGNER_CODE = #{ecSignerCode} 
+    </delete>
+    
+    <delete id="deleteSignFactor">
+    	DELETE FROM IQB_EC_SIGNER WHERE id = #{id} 
+    </delete>
+    
+    <select id="getAllOrgInfo" resultType="map">
+		SELECT ORG_CODE as id, ORG_NAME AS text FROM IQB_SYS_ORGANIZATION_INFO WHERE DELETE_FLAG=1
+	</select>
+    
+</mapper>
